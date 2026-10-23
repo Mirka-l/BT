@@ -1356,7 +1356,8 @@ GLOBAL_LIST_INIT(WALLITEMS, list(
 	if(!(Turf.loc.type in GLOB.explosive_antigrief_exempt_areas))
 		var/crash_occurred = (SSticker?.mode?.is_in_endgame)
 		if((Turf.z in SSmapping.levels_by_any_trait(list(ZTRAIT_MARINE_MAIN_SHIP, ZTRAIT_RESERVED))) && (GLOB.security_level < SEC_LEVEL_RED) && !crash_occurred)
-			switch(CONFIG_GET(number/explosive_antigrief))
+			var/options = GLOB.configuration.options.explosive_antigrief
+			switch(options)
 				if(ANTIGRIEF_DISABLED)
 					return FALSE
 				if(ANTIGRIEF_NEW_PLAYERS) //if they have less than 10 hours, dont let them prime nades

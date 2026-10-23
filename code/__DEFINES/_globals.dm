@@ -101,6 +101,9 @@
 /// Create a null global alist
 #define GLOBAL_ALIST(X) GLOBAL_RAW(/alist/##X); GLOBAL_UNMANAGED(X)
 
+/// Create a null global regex
+#define GLOBAL_REGEX(X) GLOBAL_RAW(/regex/##X); GLOBAL_UNMANAGED(X)
+
 /// Create a typed null global
 #define GLOBAL_DATUM(X, Typepath) GLOBAL_RAW(Typepath/##X); GLOBAL_UNMANAGED(X)
 

@@ -51,16 +51,16 @@
 		log_admin("[key_name(usr)] changed the security level to code [sec_level].")
 
 /client/proc/toggle_gun_restrictions()
-	if(!admin_holder || !config)
+	if(!admin_holder)
 		return
 
-	if(CONFIG_GET(flag/remove_gun_restrictions))
+	if(GLOB.configuration.misc.remove_gun_restrictions)
 		to_chat(src, "<b>Enabled gun restrictions.</b>")
 		message_admins("Admin [key_name_admin(usr)] has enabled WY gun restrictions.")
 	else
 		to_chat(src, "<b>Disabled gun restrictions.</b>")
 		message_admins("Admin [key_name_admin(usr)] has disabled WY gun restrictions.")
-	CONFIG_SET(flag/remove_gun_restrictions, !CONFIG_GET(flag/remove_gun_restrictions))
+	GLOB.configuration.misc.remove_gun_restrictions = !GLOB.configuration.misc.remove_gun_restrictions
 
 /client/proc/togglebuildmodeself()
 	set name = "Buildmode"

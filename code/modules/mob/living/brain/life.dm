@@ -71,7 +71,7 @@
 		blinded = TRUE
 		silent = 0
 	else //ALIVE. LIGHTS ARE ON
-		if( !container && (health < HEALTH_THRESHOLD_DEAD || ((world.time - timeofhostdeath) > CONFIG_GET(number/revival_brain_life))) )
+		if( !container && (health < HEALTH_THRESHOLD_DEAD || ((world.time - timeofhostdeath) > GLOB.configuration.misc.revival_brain_life)) )
 			death(last_damage_data)
 			blinded = TRUE
 			silent = 0

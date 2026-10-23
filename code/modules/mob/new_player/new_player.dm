@@ -297,7 +297,7 @@
 			var/client/client = character.client
 			if(client.player_data && client.player_data.playtime_loaded && length(client.player_data.playtimes) == 0)
 				msg_admin_niche("NEW PLAYER: <b>[key_name(character, 1, 1, 0)]</b>. IP: [character.lastKnownIP], CID: [character.computer_id]")
-			if(client.player_data && client.player_data.playtime_loaded && ((round(client.get_total_human_playtime() DECISECONDS_TO_HOURS, 0.1)) <= CONFIG_GET(number/notify_new_player_age)))
+			if(client.player_data && client.player_data.playtime_loaded && ((round(client.get_total_human_playtime() DECISECONDS_TO_HOURS, 0.1)) <= GLOB.configuration.misc.notify_new_player_age))
 				msg_sea("NEW PLAYER: <b>[key_name(character, 0, 1, 0)]</b> only has [(round(client.get_total_human_playtime() DECISECONDS_TO_HOURS, 0.1))] hours as a human. Current role: [get_actual_job_name(character)] - Current location: [get_area(character)]")
 
 	character.client.init_verbs()
@@ -366,7 +366,7 @@
 		positions = TRUE
 		position_dat += "<a href='byond://?src=\ref[src];lobby_choice=SelectedJob;job_selected=[J.title]'>[J.disp_title] ([J.current_positions]) (Active: [active])</a><br>"
 
-	dat += positions ? position_dat : "There are no available jobs. This mode has limited slotting per round. Please see the discord for more info and future playtimes: [CONFIG_GET(string/discordurl)]"
+	dat += positions ? position_dat : "There are no available jobs. This mode has limited slotting per round. Please see the discord for more info and future playtimes: [GLOB.configuration.url.discordurl]"
 
 	dat += "</center>"
 	show_browser(src, dat, "Late Join", "latechoices", width = 420, height = 700)

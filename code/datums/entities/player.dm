@@ -98,7 +98,7 @@ BSQL_PROTECT_DATUM(/datum/entity/player)
 				return FALSE
 
 	// this is here for a short transition period when we still are testing DB notes and constantly deleting the file
-	if(CONFIG_GET(flag/duplicate_notes_to_file))
+	if(GLOB.configuration.misc.duplicate_notes_to_file)
 		if(!is_confidential && note_category == NOTE_ADMIN)
 			notes_add(ckey, note_text, admin.mob)
 	else
@@ -107,7 +107,7 @@ BSQL_PROTECT_DATUM(/datum/entity/player)
 	if(!is_confidential && note_category == NOTE_ADMIN && owning_client)
 		to_chat_immediate(owning_client, SPAN_WARNING(FONT_SIZE_LARGE("You have been noted by [key_name_admin(admin.mob, FALSE)].")))
 		to_chat_immediate(owning_client, SPAN_WARNING(FONT_SIZE_BIG("The note is : [sanitize(note_text)]")))
-		to_chat_immediate(owning_client, SPAN_WARNING(FONT_SIZE_BIG("If you believe this was filed in error or misplaced, make a staff report at <a href='[CONFIG_GET(string/staffreport)]'><b>The CM Forums</b></a>")))
+		to_chat_immediate(owning_client, SPAN_WARNING(FONT_SIZE_BIG("If you believe this was filed in error or misplaced, make a staff report at <a href='[GLOB.configuration.misc.staffreport]'><b>The CM Forums</b></a>")))
 		to_chat_immediate(owning_client, SPAN_WARNING(FONT_SIZE_BIG("You can also click the name of the staff member noting you to PM them.")))
 	// create new instance of player_note entity
 	var/datum/entity/player_note/note = DB_ENTITY(/datum/entity/player_note)
@@ -171,7 +171,7 @@ BSQL_PROTECT_DATUM(/datum/entity/player)
 		return FALSE
 
 	// this is here for a short transition period when we still are testing DB notes and constantly deleting the file
-	if(CONFIG_GET(flag/duplicate_notes_to_file))
+	if(GLOB.configuration.misc.duplicate_notes_to_file)
 		AddBan(ckey, last_known_cid, ban_text, admin.ckey, 1, duration, last_known_ip)
 		notes_add(ckey, "Banned by [admin.ckey]|Duration: [duration] minutes|Reason: [sanitize(ban_text)]", usr)
 
@@ -210,7 +210,7 @@ BSQL_PROTECT_DATUM(/datum/entity/player)
 		return FALSE
 
 	// we cannot remove timed bans
-	if(CONFIG_GET(flag/duplicate_notes_to_file))
+	if(GLOB.configuration.misc.duplicate_notes_to_file)
 		message_admins(SPAN_WARNING("CANNOT REMOVE BANS FROM OLD BAN MANAGER. If you see this during test period - reapply unban after test round is done."), 1)
 
 	ban_unban_log_save("[key_name(admin)] removed [ckey]'s ban.")
@@ -243,7 +243,7 @@ BSQL_PROTECT_DATUM(/datum/entity/player)
 	var/duration_text = duration?"jobbanned for [duration/60] hours":"perma-jobbanned"
 
 	// this is here for a short transition period when we still are testing DB notes and constantly deleting the file
-	if(CONFIG_GET(flag/duplicate_notes_to_file) && !duration)
+	if(GLOB.configuration.misc.duplicate_notes_to_file && !duration)
 		for(var/rank in ranks)
 			var/safe_rank = ckey(rank)
 			if(job_bans[safe_rank])
@@ -302,7 +302,7 @@ BSQL_PROTECT_DATUM(/datum/entity/player)
 	if(!job_bans[safe_rank])
 		return
 
-	if(CONFIG_GET(flag/duplicate_notes_to_file))
+	if(GLOB.configuration.misc.duplicate_notes_to_file)
 		jobban_remove("[ckey] - [safe_rank]")
 		jobban_savebanfile()
 
@@ -554,8 +554,8 @@ BSQL_PROTECT_DATUM(/datum/entity/player)
 			message_admins("Failed Login: [ckey] (IP: [last_known_ip], CID: [last_known_cid]) - Stickybanned (Reason: [sticky.reason])")
 
 		var/appeal
-		if(CONFIG_GET(string/banappeals))
-			appeal = "\nFor more information on your ban, or to appeal, head to <a href='[CONFIG_GET(string/banappeals)]'>[CONFIG_GET(string/banappeals)]</a>"
+		if(GLOB.configuration.misc.banappeals)
+			appeal = "\nFor more information on your ban, or to appeal, head to <a href='[GLOB.configuration.misc.banappeals]'>[GLOB.configuration.misc.banappeals]</a>"
 
 		.["desc"] = "\nReason: Stickybanned - [sticky.message] Identifier: [sticky.identifier]\n[appeal]"
 		.["reason"] = "ckey/id"
@@ -569,8 +569,8 @@ BSQL_PROTECT_DATUM(/datum/entity/player)
 		return null
 
 	var/appeal
-	if(CONFIG_GET(string/banappeals))
-		appeal = "\nFor more information on your ban, or to appeal, head to <a href='[CONFIG_GET(string/banappeals)]'>[CONFIG_GET(string/banappeals)]</a>"
+	if(GLOB.configuration.misc.banappeals)
+		appeal = "\nFor more information on your ban, or to appeal, head to <a href='[GLOB.configuration.misc.banappeals]'>[GLOB.configuration.misc.banappeals]</a>"
 	if(is_permabanned)
 		var/banner = "Host"
 		if(permaban_admin_id)

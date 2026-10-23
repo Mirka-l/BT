@@ -25,7 +25,7 @@
 
 /datum/tgui_bug_report_form/proc/external_link_prompt(client/user)
 	tgui_alert(user, "Unable to create a bug report at this time, please create the issue directly through our GitHub repository instead")
-	var/url = CONFIG_GET(string/githuburl)
+	var/url = GLOB.configuration.url.github_url
 	if(!url)
 		to_chat(user, SPAN_WARNING("The configuration is not properly set, unable to open external link"))
 		return
@@ -117,9 +117,9 @@
 // the real deal, we are sending the request through the api.
 /datum/tgui_bug_report_form/proc/send_request(payload_body, client/user)
 	// for any future changes see https://docs.github.com/en/rest/issues/issues
-	var/repo_name = CONFIG_GET(string/repo_name)
-	var/org = CONFIG_GET(string/org)
-	var/token = CONFIG_GET(string/github_app_api)
+	var/repo_name = GLOB.configuration.url.repo_name
+	var/org = GLOB.configuration.url.org
+	var/token = GLOB.configuration.url.github_app_api
 
 	if(!token || !org || !repo_name)
 		tgui_alert(user, "The configuration is not set for the external API.", "Issue not reported!")

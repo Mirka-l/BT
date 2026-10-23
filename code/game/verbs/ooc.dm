@@ -1,3 +1,5 @@
+GLOBAL_VAR_INIT(normal_ooc_colour, "#075FE5")
+
 /client/verb/ooc(msg as text)
 	set name = "OOC" //Gave this shit a shorter name so you only have to time out "ooc" rather than "ooc message" to use it --NeoFite
 	set category = "OOC.OOC"
@@ -43,13 +45,13 @@
 
 	var/display_colour = GLOB.ooc_color_override
 	if(!display_colour)
-		display_colour = CONFIG_GET(string/ooc_color_normal)
+		display_colour = GLOB.normal_ooc_colour
 	if(admin_holder && !admin_holder.fakekey && admin_holder.rights & R_COLOR)
 		display_colour = prefs.ooccolor
 	else if(donator)
 		display_colour = prefs.ooccolor
 	if(!display_colour) // if invalid R_COLOR choice
-		display_colour = CONFIG_GET(string/ooc_color_normal)
+		display_colour = GLOB.normal_ooc_colour
 
 	msg = process_chat_markup(msg, list("*"))
 	var/ooc_prefix = handle_ooc_prefix()
@@ -70,7 +72,7 @@
 	if(prefs.unlock_content && (prefs.toggle_prefs & TOGGLE_MEMBER_PUBLIC))
 		var/byond = icon('icons/effects/effects.dmi', "byondlogo")
 		prefix += "[icon2html(byond, GLOB.clients)]"
-	if(CONFIG_GET(flag/ooc_country_flags) && (prefs.toggle_prefs & TOGGLE_OOC_FLAG))
+	if(GLOB.configuration.misc.ooc_country_flags && (prefs.toggle_prefs & TOGGLE_OOC_FLAG))
 		prefix += "[country2chaticon(src.country, GLOB.clients)]"
 	if(donator)
 		prefix += "[icon2html('icons/ooc.dmi', GLOB.clients, "Donator")]"

@@ -56,7 +56,7 @@ GLOBAL_REAL(SSdatabase, /datum/controller/subsystem/database_query_manager)
 /datum/controller/subsystem/database_query_manager/proc/start_up()
 	set waitfor = FALSE
 
-	settings = connection_settings_from_config(CONFIG_GET(string/db_provider))
+	settings = connection_settings_from_config(GLOB.configuration.database.db_provider)
 	connection = settings.create_connection()
 	connection.keep()
 

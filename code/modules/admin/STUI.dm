@@ -81,7 +81,7 @@ GLOBAL_DATUM_INIT(STUI, /datum/STUI, new)
 		.["tabs"] += STUI_TEXT_TGUI
 
 /datum/STUI/ui_data(mob/user)
-	var/stui_length = CONFIG_GET(number/STUI_length)
+	var/stui_length = GLOB.configuration.misc.STUI_length
 	. = list()
 	.["logs"] = list()
 	if(user.client.admin_holder.rights & R_MOD)

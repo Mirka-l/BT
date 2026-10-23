@@ -18,10 +18,10 @@
 	if(sound_mode == "Web")
 		var/list/datum/internet_media/media_players = list()
 
-		if(CONFIG_GET(string/invoke_youtubedl))
+		if(GLOB.configuration.url.invoke_youtube_dl)
 			media_players += new /datum/internet_media/yt_dlp
 
-		if(CONFIG_GET(string/cobalt_base_api))
+		if(GLOB.configuration.url.cobalt_base_api)
 			media_players += new /datum/internet_media/cobalt
 
 		if(!length(media_players))
@@ -50,7 +50,7 @@
 		data = response.get_list()
 
 	else if(sound_mode == "Upload")
-		var/current_transport = CONFIG_GET(string/asset_transport)
+		var/current_transport = GLOB.configuration.options.asset_transport
 		if(!current_transport || current_transport == "simple")
 			if(tgui_alert(usr, "WARNING: Your server is using simple asset transport. Sounds will have to be sent directly to players, which may freeze the game for long durations. Are you SURE?", "Really play direct sound?", list("Yes", "No")) != "Yes")
 				return

@@ -38,7 +38,7 @@ GLOBAL_PROTECT(logger)
 			continue
 
 		var/config_flag = initial(category_type.config_flag)
-		if(config_flag && !config.Get(config_flag))
+		if(config_flag)
 			disabled_categories[category] = TRUE
 			continue
 		category_type = log_categories[category] = new category_type

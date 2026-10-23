@@ -22,7 +22,7 @@
 /datum/internet_media/yt_dlp
 
 /datum/internet_media/yt_dlp/get_media(url)
-	var/ytdl = CONFIG_GET(string/invoke_youtubedl)
+	var/ytdl = GLOB.configuration.url.invoke_youtube_dl
 	if(!ytdl)
 		error = "Youtube-dl FAILED: Not configured"
 		return
@@ -53,7 +53,7 @@
 /datum/internet_media/cobalt
 
 /datum/internet_media/cobalt/get_media(url)
-	var/cobalt = CONFIG_GET(string/cobalt_base_api)
+	var/cobalt = GLOB.configuration.url.cobalt_base_api
 	if(!cobalt)
 		error = "cobalt.tools FAILED: Not configured"
 		return
@@ -62,7 +62,7 @@
 	headers["Accept"] = "application/json"
 	headers["Content-Type"] = "application/json"
 
-	var/auth_key = CONFIG_GET(string/cobalt_api_key)
+	var/auth_key = GLOB.configuration.url.cobalt_api_key
 	if(auth_key)
 		headers["Authorization"] = "Api-Key [auth_key]"
 

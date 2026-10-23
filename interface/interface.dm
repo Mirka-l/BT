@@ -3,24 +3,12 @@
 	set name = "wiki"
 	set desc = "Visit the wiki."
 	set hidden = TRUE
-	if( CONFIG_GET(string/wikiurl_home_page) || CONFIG_GET(string/wikiurl) )
+	if(GLOB.configuration.url.wikiurl_home_page || GLOB.configuration.url.wikiurl)
 		if(tgui_alert(src, "This will open the wiki in your browser. Are you sure?", "Confirm", list("Yes", "No")) != "Yes")
 			return
-		src << link(CONFIG_GET(string/wikiurl_home_page) || CONFIG_GET(string/wikiurl))
+		src << link(GLOB.configuration.url.wikiurl_home_page || GLOB.configuration.url.wikiurl)
 	else
 		to_chat(src, SPAN_DANGER("The wiki URL is not set in the server configuration."))
-	return
-
-/client/verb/worksheet()
-	set name = "Worksheet"
-	set desc = "Visit the worksheet."
-	set hidden = TRUE
-	if( CONFIG_GET(string/forumurl) )
-		if(tgui_alert(src, "This will open the worksheet in your browser. Are you sure?", "Confirm", list("Yes", "No")) != "Yes")
-			return
-		src << link(CONFIG_GET(string/forumurl))
-	else
-		to_chat(src, SPAN_DANGER("The forum URL is not set in the server configuration."))
 	return
 
 /client/verb/changelog()
@@ -43,7 +31,7 @@
 	if(tgui_alert(src, "This will open the discord in your browser. Are you sure?", "Confirm", list("Yes", "No")) != "Yes")
 		return
 
-	src << link("[CONFIG_GET(string/discordurl)]")
+	src << link("[GLOB.configuration.url.discordurl]")
 	return
 
 /client/verb/github()
@@ -54,7 +42,7 @@
 	if(tgui_alert(src, "This will open the GitHub in your browser. Are you sure?", "Confirm", list("Yes", "No")) != "Yes")
 		return
 
-	src << link(CONFIG_GET(string/githuburl))
+	src << link(GLOB.configuration.url.github_url)
 	return
 
 /client/verb/set_fps()

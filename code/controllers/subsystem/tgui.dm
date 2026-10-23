@@ -34,7 +34,7 @@ SUBSYSTEM_DEF(tgui)
 	basehtml = replacetextEx(basehtml, "<!-- tgui:inline-polyfill -->", polyfill)
 
 /datum/controller/subsystem/tgui/OnConfigLoad()
-	if(CONFIG_GET(string/asset_transport) == "webroot")
+	if(GLOB.configuration.options.asset_transport == "webroot")
 		var/datum/asset_transport/webroot/webroot = SSassets.transport
 
 		var/datum/asset_cache_item/item = webroot.register_asset("iframe.html", file("tgui/public/iframe.html"))

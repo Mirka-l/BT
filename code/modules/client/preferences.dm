@@ -279,7 +279,7 @@ GLOBAL_LIST_INIT(bgstate_options, list(
 		C.tgui_say?.load()
 
 	if(!ooccolor)
-		ooccolor = CONFIG_GET(string/ooc_color_normal)
+		ooccolor = GLOB.normal_ooc_colour
 	gender = pick(MALE, FEMALE)
 	real_name = random_name(gender)
 	gear = list()
@@ -598,7 +598,7 @@ GLOBAL_LIST_INIT(bgstate_options, list(
 			dat += "<b>Custom Cursors:</b> <a href='byond://?_src_=prefs;preference=customcursors'><b>[custom_cursors ? "Enabled" : "Disabled"]</b></a><br>"
 
 			dat += "<h2><b><u>Chat Settings:</u></b></h2>"
-			if(CONFIG_GET(flag/ooc_country_flags))
+			if(GLOB.configuration.misc.ooc_country_flags)
 				dat += "<b>OOC Country Flag:</b> <a href='byond://?_src_=prefs;preference=ooc_flag'><b>[(toggle_prefs & TOGGLE_OOC_FLAG) ? "Enabled" : "Disabled"]</b></a><br>"
 			if(user.client.admin_holder && user.client.admin_holder.rights & R_DEBUG)
 				dat += "<b>View Master Controller Tab:</b> <a href='byond://?_src_=prefs;preference=ViewMC'><b>[View_MC ? "TRUE" : "FALSE"]</b></a>"
@@ -634,7 +634,7 @@ GLOBAL_LIST_INIT(bgstate_options, list(
 			dat += "<b>Default Ghost Night Vision Level:</b> <a href='byond://?_src_=prefs;preference=ghost_vision_pref;task=input'><b>[ghost_vision_pref]</b></a><br>"
 			dat += "<b>Button To Activate Xenomorph Abilities:</b> <a href='byond://?_src_=prefs;preference=mouse_button_activation;task=input'><b>[xeno_ability_mouse_pref_to_string(xeno_ability_click_mode)]</b></a><br>"
 			dat += "<a href='byond://?src=\ref[src];action=proccall;procpath=/client/proc/receive_random_tip'>Read Random Tip of the Round</a><br>"
-			if(CONFIG_GET(flag/allow_Metadata))
+			if(GLOB.configuration.misc.allow_metadata)
 				dat += "<b>OOC Notes:</b> <a href='byond://?_src_=prefs;preference=metadata;task=input'> Edit </a>"
 			dat += "</div>"
 
@@ -1864,7 +1864,7 @@ GLOBAL_LIST_INIT(bgstate_options, list(
 						toggle_prefs ^= TOGGLE_MEMBER_PUBLIC
 
 				if("ooc_flag")
-					if(CONFIG_GET(flag/ooc_country_flags))
+					if(GLOB.configuration.misc.ooc_country_flags)
 						toggle_prefs ^= TOGGLE_OOC_FLAG
 					else
 						to_chat(user, SPAN_WARNING("Country Flags in OOC are disabled in the current server configuration!"))
@@ -2138,7 +2138,7 @@ GLOBAL_LIST_INIT(bgstate_options, list(
 	if(be_random_name)
 		real_name = random_name(gender)
 
-	if(CONFIG_GET(flag/humans_need_surnames))
+	if(GLOB.configuration.misc.humans_need_surnames)
 		var/firstspace = findtext(real_name, " ")
 		var/name_length = length(real_name)
 		if(!firstspace) //we need a surname

@@ -254,7 +254,7 @@
 	set category = "Preferences"
 	set desc = "Toggles if your country flag (based on what country your IP is connecting from) is displayed in OOC chat."
 
-	if(!(CONFIG_GET(flag/ooc_country_flags)))
+	if(!(GLOB.configuration.misc.ooc_country_flags))
 		to_chat(src, SPAN_WARNING("Country Flags in OOC are disabled in the current server configuration!"))
 		return
 

@@ -23,7 +23,7 @@
 	var/debug_mode
 
 /datum/db/connection_settings/New(list/config)
-	debug_mode = CONFIG_GET(flag/db_debug_mode)
+	debug_mode = GLOB.configuration.database.db_debug_mode
 
 /datum/db/connection_settings/proc/create_connection()
 	return null

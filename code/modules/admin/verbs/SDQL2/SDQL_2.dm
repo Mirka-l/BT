@@ -1326,7 +1326,7 @@ GLOBAL_DATUM_INIT(sdql2_vv_statobj, /obj/effect/statclick/sdql2_vv_all, new(null
 		if("FS")
 			return Failsafe
 		if("CFG")
-			return config
+			return "No no no, Mr.Tetra"
 		else
 			if(copytext(input_text, 1, 3) == "SS") //Subsystem //3 == length("SS") + 1
 				var/SSname = copytext_char(input_text, 3)

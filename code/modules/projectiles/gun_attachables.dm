@@ -1987,7 +1987,7 @@ Defined in conflicts.dm of the #defines folder.
 	recoil_unwielded_mod = RECOIL_AMOUNT_TIER_5
 	scatter_unwielded_mod = SCATTER_AMOUNT_TIER_10
 	//but at the same time you are slow when 2 handed
-	aim_speed_mod = CONFIG_GET(number/slowdown_med)
+	aim_speed_mod = AIM_SLOWDOWN_MED
 
 	select_gamemode_skin(type)
 
@@ -2133,7 +2133,7 @@ Defined in conflicts.dm of the #defines folder.
 	recoil_unwielded_mod = RECOIL_AMOUNT_TIER_5
 	scatter_unwielded_mod = SCATTER_AMOUNT_TIER_10
 	//but at the same time you are slow when 2 handed
-	aim_speed_mod = CONFIG_GET(number/slowdown_med)
+	aim_speed_mod = AIM_SLOWDOWN_MED
 
 	matter = list("wood" = 2000)
 
@@ -2270,7 +2270,7 @@ Defined in conflicts.dm of the #defines folder.
 	recoil_unwielded_mod = RECOIL_AMOUNT_TIER_4
 	scatter_unwielded_mod = SCATTER_AMOUNT_TIER_8
 	//but at the same time you are slow when 2 handed
-	aim_speed_mod = CONFIG_GET(number/slowdown_med)
+	aim_speed_mod = AIM_SLOWDOWN_MED
 
 /obj/item/attachable/stock/rifle/collapsible
 	name = "\improper M41A extendable stock"
@@ -2314,7 +2314,7 @@ Defined in conflicts.dm of the #defines folder.
 		accuracy_unwielded_mod = -HIT_ACCURACY_MULT_TIER_1
 		recoil_unwielded_mod = RECOIL_AMOUNT_TIER_4
 		scatter_unwielded_mod = SCATTER_AMOUNT_TIER_7
-		aim_speed_mod = CONFIG_GET(number/slowdown_med)
+		aim_speed_mod = AIM_SLOWDOWN_MED
 		hud_offset_mod = 5
 		icon_state = "m41_folding_on"
 		attach_icon = "m41_folding_a_on"
@@ -2394,7 +2394,7 @@ Defined in conflicts.dm of the #defines folder.
 		accuracy_unwielded_mod = -HIT_ACCURACY_MULT_TIER_3
 		recoil_unwielded_mod = RECOIL_AMOUNT_TIER_4
 		scatter_unwielded_mod = SCATTER_AMOUNT_TIER_8
-		aim_speed_mod = CONFIG_GET(number/slowdown_med)
+		aim_speed_mod = AIM_SLOWDOWN_MED
 		hud_offset_mod = 5
 		icon_state = "ag80_folding_on"
 		attach_icon = "ag80_folding_a_on"
@@ -2460,7 +2460,7 @@ Defined in conflicts.dm of the #defines folder.
 		accuracy_mod = HIT_ACCURACY_MULT_TIER_2
 		recoil_mod = -RECOIL_AMOUNT_TIER_5
 		scatter_mod = -SCATTER_AMOUNT_TIER_9
-		aim_speed_mod = CONFIG_GET(number/slowdown_med)
+		aim_speed_mod = AIM_SLOWDOWN_MED
 		hud_offset_mod = 5
 		icon_state = "m16_folding"
 		attach_icon = "m16_folding_on"
@@ -2525,7 +2525,7 @@ Defined in conflicts.dm of the #defines folder.
 	recoil_unwielded_mod = RECOIL_AMOUNT_TIER_5
 	scatter_unwielded_mod = SCATTER_AMOUNT_TIER_6
 	//and makes you slower
-	aim_speed_mod = CONFIG_GET(number/slowdown_med)
+	aim_speed_mod = AIM_SLOWDOWN_MED
 
 /obj/item/attachable/stock/xm51/military
 	name = "\improper XM51 stock"
@@ -2803,7 +2803,7 @@ Defined in conflicts.dm of the #defines folder.
 	scatter_mod = -SCATTER_AMOUNT_TIER_6
 	delay_mod = 0
 	movement_onehanded_acc_penalty_mod = -MOVEMENT_ACCURACY_PENALTY_MULT_TIER_5
-	aim_speed_mod = CONFIG_GET(number/slowdown_low)
+	aim_speed_mod = AIM_SLOWDOWN_LOW
 
 
 /obj/item/attachable/stock/smg/collapsible
@@ -2836,7 +2836,7 @@ Defined in conflicts.dm of the #defines folder.
 	recoil_unwielded_mod = RECOIL_AMOUNT_TIER_4
 	scatter_unwielded_mod = SCATTER_AMOUNT_TIER_10
 	//but at the same time you are slowish when 2 handed
-	aim_speed_mod = CONFIG_GET(number/slowdown_low)
+	aim_speed_mod = AIM_SLOWDOWN_LOW
 
 
 /obj/item/attachable/stock/smg/collapsible/apply_on_weapon(obj/item/weapon/gun/gun)
@@ -2846,7 +2846,7 @@ Defined in conflicts.dm of the #defines folder.
 		scatter_mod = -SCATTER_AMOUNT_TIER_8
 		scatter_unwielded_mod = SCATTER_AMOUNT_TIER_10
 		size_mod = 1
-		aim_speed_mod = CONFIG_GET(number/slowdown_low)
+		aim_speed_mod = AIM_SLOWDOWN_LOW
 		wield_delay_mod = WIELD_DELAY_FAST
 		movement_onehanded_acc_penalty_mod = -MOVEMENT_ACCURACY_PENALTY_MULT_TIER_5
 		accuracy_unwielded_mod = -HIT_ACCURACY_MULT_TIER_3
@@ -2954,7 +2954,7 @@ Defined in conflicts.dm of the #defines folder.
 	recoil_unwielded_mod = RECOIL_AMOUNT_TIER_4
 	scatter_unwielded_mod = SCATTER_AMOUNT_TIER_8
 	//but at the same time you are slow when 2 handed
-	aim_speed_mod = CONFIG_GET(number/slowdown_med)
+	aim_speed_mod = AIM_SLOWDOWN_MED
 
 
 /obj/item/attachable/stock/revolver/activate_attachment(obj/item/weapon/gun/G, mob/living/carbon/user, turn_off)

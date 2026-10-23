@@ -224,9 +224,9 @@
 /mob/proc/movement_delay()
 	switch(m_intent)
 		if(MOVE_INTENT_RUN)
-			. = 2 + CONFIG_GET(number/run_speed)
+			. = 2 + RUN_DELAY
 		if(MOVE_INTENT_WALK)
-			. = 7 + CONFIG_GET(number/walk_speed)
+			. = 7 + WALK_DELAY
 	. += speed
 	move_delay = .
 

@@ -82,8 +82,6 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	var/static/current_ticklimit = TICK_LIMIT_RUNNING
 
 /datum/controller/master/New()
-	if(!config)
-		config = new
 	// Highlander-style: there can only be one! Kill off the old and replace it with the new.
 
 	if(!random_seed)
@@ -266,18 +264,18 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 
 	// Set world options.
-	world.change_fps(CONFIG_GET(number/fps))
+	world.change_fps(GLOB.configuration.options.fps)
 	var/initialized_tod = REALTIMEOFDAY
 
 	if(tgs_prime)
 		world.TgsInitializationComplete()
 
-	if(sleep_offline_after_initializations)
+	if(sleep_offline_after_initializations && GLOB.configuration.options.sleep_offline)
 		world.sleep_offline = TRUE
+	else
+		world.sleep_offline = FALSE
 	sleep(1 TICKS)
 
-	if(sleep_offline_after_initializations && CONFIG_GET(flag/resume_after_initializations))
-		world.sleep_offline = FALSE
 	initializations_finished_with_no_players_logged_in = initialized_tod < REALTIMEOFDAY - 10
 
 /**
@@ -800,10 +798,10 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	if (!processing)
 		return
 	var/client_count = length(GLOB.clients)
-	if (client_count < CONFIG_GET(number/mc_tick_rate/disable_high_pop_mc_mode_amount))
-		processing = CONFIG_GET(number/mc_tick_rate/base_mc_tick_rate)
-	else if (client_count > CONFIG_GET(number/mc_tick_rate/high_pop_mc_mode_amount))
-		processing = CONFIG_GET(number/mc_tick_rate/high_pop_mc_tick_rate)
+	if (client_count < GLOB.configuration.mc.disable_high_pop_mc_mode_amount)
+		processing = GLOB.configuration.mc.base_mc_tick_rate
+	else if (client_count > GLOB.configuration.mc.high_pop_mc_mode_amount)
+		processing = GLOB.configuration.mc.high_pop_mc_tick_rate
 
 /datum/controller/master/proc/OnConfigLoad()
 	for (var/thing in subsystems)

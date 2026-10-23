@@ -10,8 +10,8 @@ GLOBAL_DATUM(Banlist, /savefile)
 
 	. = list()
 	var/appeal
-	if(CONFIG_GET(string/banappeals))
-		appeal = "\nFor more information on your ban, or to appeal, head to <a href='[CONFIG_GET(string/banappeals)]'>[CONFIG_GET(string/banappeals)]</a>"
+	if(GLOB.configuration.url.ban_appeals)
+		appeal = "\nFor more information on your ban, or to appeal, head to <a href='[GLOB.configuration.url.ban_appeals]'>[GLOB.configuration.url.ban_appeals]</a>"
 	GLOB.Banlist.cd = "/base"
 	if( "[ckey][id]" in GLOB.Banlist.dir )
 		GLOB.Banlist.cd = "[ckey][id]"

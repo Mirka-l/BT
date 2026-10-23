@@ -49,8 +49,6 @@ export const setClientTheme = (name) => {
       'changelog.text-color': '#000000',
       'wiki.background-color': 'none',
       'wiki.text-color': '#000000',
-      'worksheet.background-color': 'none',
-      'worksheet.text-color': '#000000',
       'github.background-color': 'none',
       'github.text-color': '#000000',
       // Status and verb tabs
@@ -89,8 +87,6 @@ export const setClientTheme = (name) => {
       'changelog.text-color': COLOR_DARK_TEXT,
       'wiki.background-color': '#494949',
       'wiki.text-color': COLOR_DARK_TEXT,
-      'worksheet.background-color': '#494949',
-      'worksheet.text-color': COLOR_DARK_TEXT,
       'github.background-color': '#492020',
       'github.text-color': COLOR_DARK_TEXT,
       // Status and verb tabs

@@ -1,5 +1,5 @@
 /proc/important_message_external(message, title, list/datum/tgs_chat_embed/field/fields)
-	if(CONFIG_GET(string/important_log_channel))
+	if(GLOB.configuration.misc.important_log_channel)
 		var/datum/tgs_message_content/to_send = new("")
 
 		var/datum/tgs_chat_embed/structure/embed = new()
@@ -12,4 +12,4 @@
 
 		to_send.embed = embed
 
-		send2chat(to_send, CONFIG_GET(string/important_log_channel))
+		send2chat(to_send, GLOB.configuration.misc.important_log_channel)

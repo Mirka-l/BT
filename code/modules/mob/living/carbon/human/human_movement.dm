@@ -85,7 +85,7 @@
 	if(slowed && !superslowed)
 		. += HUMAN_SLOWED_AMOUNT
 
-	. += CONFIG_GET(number/human_delay)
+	. += HUMAN_MOVEMENT_DELAY
 	var/list/movedata = list("move_delay" = .)
 	SEND_SIGNAL(src, COMSIG_HUMAN_POST_MOVE_DELAY, movedata)
 	move_delay = movedata["move_delay"]

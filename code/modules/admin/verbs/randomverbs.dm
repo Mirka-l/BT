@@ -15,7 +15,7 @@
 		if(!CLIENT_IS_MENTOR(src))
 			to_chat(src, "Only staff members have permission to use this.")
 			return
-		if(!CONFIG_GET(flag/mentor_tools))
+		if(!GLOB.configuration.misc.mentor_tools)
 			to_chat(src, "Mentors do not have permission to use this.")
 
 	var/age = alert(src, "Age check", "Show accounts up to how many days old ?", "7", "30" , "All")
@@ -44,7 +44,7 @@
 		to_chat(src, "No matches for that age range found.")
 
 /proc/cmd_admin_mute(mob/M as mob, mute_type, automute = 0)
-	if(automute && !CONFIG_GET(flag/automute_on))
+	if(automute && !GLOB.configuration.misc.automute_on)
 		return FALSE
 	if(!M.client)
 		to_chat(usr, SPAN_WARNING("This mob doesn't have a client tied to it."))
@@ -123,17 +123,17 @@
 
 	switch(antigrief_choice)
 		if(ANTIGRIEF_OPTION_DISABLED)
-			CONFIG_SET(number/explosive_antigrief, ANTIGRIEF_DISABLED)
+			GLOB.configuration.options.explosive_antigrief = ANTIGRIEF_DISABLED
 			message_admins(FONT_SIZE_LARGE("[key_name_admin(usr)] has disabled explosive antigrief."))
 		if(ANTIGRIEF_OPTION_ENABLED)
 			message_admins(FONT_SIZE_LARGE("[key_name_admin(usr)] has fully enabled explosive antigrief for all players."))
-			CONFIG_SET(number/explosive_antigrief, ANTIGRIEF_ENABLED)
+			GLOB.configuration.options.explosive_antigrief = ANTIGRIEF_ENABLED
 		if(ANTIGRIEF_OPTION_NEW_PLAYERS)
 			message_admins(FONT_SIZE_LARGE("[key_name_admin(usr)] has enabled explosive antigrief for new players (less than 10 total human hours)."))
-			CONFIG_SET(number/explosive_antigrief, ANTIGRIEF_NEW_PLAYERS)
+			GLOB.configuration.options.explosive_antigrief = ANTIGRIEF_NEW_PLAYERS
 		else
 			message_admins(FONT_SIZE_LARGE("Error! [key_name_admin(usr)] attempted to toggle explosive antigrief but the selected value was [antigrief_choice]. Setting it to enabled."))
-			CONFIG_SET(number/explosive_antigrief, ANTIGRIEF_ENABLED)
+			GLOB.configuration.options.explosive_antigrief = ANTIGRIEF_ENABLED
 
 /client/proc/check_explosive_antigrief()
 	set name = "Check Explosive Antigrief"
@@ -142,7 +142,7 @@
 	if(!admin_holder || !(admin_holder.rights & R_MOD))
 		return
 
-	switch(CONFIG_GET(number/explosive_antigrief))
+	switch(GLOB.configuration.options.explosive_antigrief)
 		if(ANTIGRIEF_DISABLED)
 			to_chat(src, SPAN_BOLDNOTICE("Explosive antigrief is currently disabled."))
 		if(ANTIGRIEF_ENABLED)

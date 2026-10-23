@@ -108,9 +108,7 @@
 
 	for(var/i in maptypes)
 		var/filename
-		if(CONFIG_GET(flag/ephemeral_map_mode) && i == GROUND_MAP)
-			filename = CONFIG_GET(string/ephemeral_ground_map)
-		else filename = MAP_TO_FILENAME[i]
+		filename = MAP_TO_FILENAME[i]
 		var/datum/map_config/config = new
 		if(default)
 			configs[i] = config
@@ -400,9 +398,6 @@
 
 
 /datum/map_config/proc/MakeNextMap(maptype = GROUND_MAP)
-	if(CONFIG_GET(flag/ephemeral_map_mode))
-		message_admins("NOTICE: Running in ephemeral mode - map change request ignored")
-		return TRUE
 	if(maptype == GROUND_MAP)
 		return config_filename == "data/next_map.json" || fcopy(config_filename, "data/next_map.json")
 	else if(maptype == SHIP_MAP)

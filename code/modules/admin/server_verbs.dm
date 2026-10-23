@@ -6,10 +6,10 @@
 		return
 
 	var/list/maprotatechoices = list()
-	for(var/map in config.maplist[GROUND_MAP])
-		var/datum/map_config/VM = config.maplist[GROUND_MAP][map]
+	for(var/map in SSmapping.maplist[GROUND_MAP])
+		var/datum/map_config/VM = SSmapping.maplist[GROUND_MAP][map]
 		var/mapname = VM.map_name
-		if(VM == config.defaultmaps[GROUND_MAP])
+		if(VM == SSmapping.defaultmaps[GROUND_MAP])
 			mapname += " (Default)"
 
 		if(VM.config_min_users > 0 || VM.config_max_users > 0)
@@ -94,10 +94,10 @@
 		return
 
 	var/list/maprotatechoices = list()
-	for(var/map in config.maplist[SHIP_MAP])
-		var/datum/map_config/VM = config.maplist[SHIP_MAP][map]
+	for(var/map in SSmapping.maplist[SHIP_MAP])
+		var/datum/map_config/VM = SSmapping.maplist[SHIP_MAP][map]
 		var/mapname = VM.map_name
-		if(VM == config.defaultmaps[SHIP_MAP])
+		if(VM == SSmapping.defaultmaps[SHIP_MAP])
 			mapname += " (Default)"
 
 		if(VM.config_min_users > 0 || VM.config_max_users > 0)

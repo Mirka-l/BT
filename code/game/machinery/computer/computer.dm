@@ -128,8 +128,6 @@
 			playsound(src, "keyboard", 15, 1)
 
 /obj/structure/machinery/computer/fixer
-	var/all_configs
 
 /obj/structure/machinery/computer/fixer/New()
-	all_configs = config
 	..()

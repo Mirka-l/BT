@@ -4,7 +4,7 @@ GLOBAL_DATUM_INIT(relays_panel, /datum/ping_relay_tgui, new)
 	GLOB.relays_panel.tgui_interact(client.mob)
 
 /datum/ping_relay_tgui/tgui_interact(mob/user, datum/tgui/ui)
-	var/list/relay_ping_conf = CONFIG_GET(keyed_list/connection_relay_ping)
+	var/list/relay_ping_conf = GLOB.configuration.url.connection_relay_ping
 	if(!length(relay_ping_conf))
 		to_chat(user, "There are no relays configured to test.")
 		return
@@ -24,8 +24,8 @@ GLOBAL_DATUM_INIT(relays_panel, /datum/ping_relay_tgui, new)
 	var/list/relay_pings = list()
 	var/list/relay_cons = list()
 
-	var/list/relay_ping_conf = CONFIG_GET(keyed_list/connection_relay_ping)
-	var/list/relay_con_conf = CONFIG_GET(keyed_list/connection_relay_con)
+	var/list/relay_ping_conf = GLOB.configuration.url.connection_relay_ping
+	var/list/relay_con_conf = GLOB.configuration.url.connection_relay_con
 	for(var/key in relay_ping_conf)
 		// assumption: keys are the same in both configs
 		relay_names += key

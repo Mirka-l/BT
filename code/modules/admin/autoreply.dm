@@ -22,19 +22,19 @@ GLOBAL_REFERENCE_LIST_INDEXED(adminreplies, /datum/autoreply/admin, title)
 	title = "Bug Report"
 
 ON_CONFIG_LOAD(/datum/autoreply/admin/bug)
-	message = "Please report all bugs on our <a href='[CONFIG_GET(string/githuburl)]'>Github</a>. Administrative staff are unable to fix most bugs on a round to round basis and only round critical bugs, or exploits, should be ahelped."
+	message = "Please report all bugs on our <a href='[GLOB.configuration.url.github_url]'>Github</a>. Administrative staff are unable to fix most bugs on a round to round basis and only round critical bugs, or exploits, should be ahelped."
 
 /datum/autoreply/admin/marine
 	title = "Marine Guide"
 
 ON_CONFIG_LOAD(/datum/autoreply/admin/marine)
-	message = "Your action can be answered by the <a href='[CONFIG_GET(string/wikiarticleurl)]/[URL_WIKI_MARINE_QUICKSTART]'>Marine Quickstart Guide</a>. If anything is unclear or you have another question please make a new mentorhelp or ahelp about it."
+	message = "Your action can be answered by the <a href='[GLOB.configuration.url.wiki_article_url]/[URL_WIKI_MARINE_QUICKSTART]'>Marine Quickstart Guide</a>. If anything is unclear or you have another question please make a new mentorhelp or ahelp about it."
 
 /datum/autoreply/admin/xeno
 	title = "Xeno Guide"
 
 ON_CONFIG_LOAD(/datum/autoreply/admin/xeno)
-	message = "Your action can be answered by the <a href='[CONFIG_GET(string/wikiarticleurl)]/[URL_WIKI_XENO_QUICKSTART]'>Xeno Quickstart Guide</a>. If anything is unclear or you have another question please make a new mentorhelp or ahelp about it."
+	message = "Your action can be answered by the <a href='[GLOB.configuration.url.wiki_article_url]/[URL_WIKI_XENO_QUICKSTART]'>Xeno Quickstart Guide</a>. If anything is unclear or you have another question please make a new mentorhelp or ahelp about it."
 
 /datum/autoreply/admin/changelog
 	title = "Changelog"
@@ -52,4 +52,4 @@ ON_CONFIG_LOAD(/datum/autoreply/admin/xeno)
 	title = "Whitelist Issue"
 
 ON_CONFIG_LOAD(/datum/autoreply/admin/whitelist)
-	message = "Staff are unable to handle most whitelist rulebreaks in-game, please make a player report on the forums, <a href='[CONFIG_GET(string/playerreport)]'>here</a>."
+	message = "Staff are unable to handle most whitelist rulebreaks in-game, please make a player report on the forums, <a href='[GLOB.configuration.url.player_report]'>here</a>."

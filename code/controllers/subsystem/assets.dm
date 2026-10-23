@@ -9,9 +9,8 @@ SUBSYSTEM_DEF(assets)
 
 /datum/controller/subsystem/assets/OnConfigLoad()
 	var/newtransporttype = /datum/asset_transport
-	switch (CONFIG_GET(string/asset_transport))
-		if ("webroot")
-			newtransporttype = /datum/asset_transport/webroot
+	if (GLOB.configuration.options.asset_transport)
+		newtransporttype = /datum/asset_transport/webroot
 
 	if (newtransporttype == transport.type)
 		return

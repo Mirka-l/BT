@@ -104,7 +104,7 @@ SUBSYSTEM_DEF(timer)
 		WARNING(msg)
 		if(bucket_auto_reset)
 			bucket_resolution = 0
-		dump_timer_buckets(CONFIG_GET(flag/log_timers_on_bucket_reset))
+		dump_timer_buckets(GLOB.configuration.misc.log_timers_on_bucket_reset)
 
 	// Process client-time timers
 	if (next_clienttime_timer_index)

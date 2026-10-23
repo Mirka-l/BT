@@ -41,6 +41,12 @@ GLOBAL_VAR_INIT(rollovercheck_last_timeofday, 0)
 /proc/time_stamp() // Shows current GMT time
 	return time2text(world.timeofday, "hh:mm:ss")
 
+/proc/start_watch()
+	return REALTIMEOFDAY
+
+/proc/stop_watch(wh)
+	return round(0.1 * (REALTIMEOFDAY - wh), 0.1)
+
 /proc/duration2text(time = world.time) // Shows current time starting at 0:00
 	return gameTimestamp("hh:mm", time)
 

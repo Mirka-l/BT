@@ -17,7 +17,7 @@ SUBSYSTEM_DEF(events)
 	var/frequency_upper = 15 MINUTES
 
 /datum/controller/subsystem/events/Initialize(time, zlevel)
-	if(CONFIG_GET(flag/events_disallowed))
+	if(GLOB.configuration.event.events_disallowed)
 		can_fire = 0
 	for(var/type in typesof(/datum/round_event_control))
 		var/datum/round_event_control/E = new type()

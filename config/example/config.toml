@@ -1,0 +1,89 @@
+# SECTION LIST (Ctrl+F to jump to these)
+# - general_configuration
+# -
+
+################################################################
+
+[general_configuration]
+server_name = "Banda Troopers"
+server_tag_line = "The perfect mix of RP & action"
+server_features = "Medium RP"
+lobby_time = 240
+restart_timeout = 75
+lobby_countdown
+
+[logging_configuration]
+log_debug = true
+log_asset = true
+log_ooc = true
+log_looc = true
+log_access = true
+log_say = true
+log_telecomms = true
+log_hivemind = true
+log_runtime = true
+log_prayer = true
+log_game = true
+log_overwatch = true
+log_interact = true
+log_idmod = true
+log_vote = true
+log_whisper = true
+log_attack = true
+log_emote = true
+log_world_topic = true
+log_manifest = true
+log_admin = true
+log_adminchat = true
+log_adminwarn = true
+log_hrefs = true
+
+[options_configuration]
+explosive_antigrief = ANTIGRIEF_DISABLED
+sleep_offline = true
+fps = 20
+asset_transport
+defaultmaps
+auto_ooc_mute
+
+[mc_configuration]
+disable_high_pop_mc_mode_amount = 50
+high_pop_mc_mode_amount = 80
+high_pop_mc_tick_rate = 15
+base_mc_tick_rate = 20
+
+[event_configuration]
+events_disallowed = true
+
+[misc_configuration]
+hard_deletes_overrun_threshold = 0.5
+hard_deletes_overrun_limit = 0
+kick_inactive = false
+auto_profile
+log_timers_on_bucket_reset
+vote_period
+default_no_vote
+no_dead_vote
+vote_delay
+vote_adjustment_callback
+allow_vote_restart
+
+[influx_configuration]
+influxdb_send_period
+influxdb_mcstats_period
+influxdb_stats_period
+influxdb_host
+influxdb_token
+influxdb_bucket
+influxdb_org
+
+[url_configuration]
+new_round_alert_role_id
+new_round_alert_channel
+wikiurl
+
+[redis_configuration]
+instance_name
+redis_logging
+redis_enabled
+redis_connection

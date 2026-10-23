@@ -76,7 +76,7 @@ GLOBAL_LIST_INIT(whitelisted_client_procs, list(
 			return
 
 	// Rate limiting
-	var/mtl = CONFIG_GET(number/minute_topic_limit)
+	var/mtl = GLOB.configuration.url.minute_topic_limit
 	if (!admin_holder && mtl)
 		var/minute = round(world.time, 600)
 		if (!topiclimiter)
@@ -95,7 +95,7 @@ GLOBAL_LIST_INIT(whitelisted_client_procs, list(
 			to_chat(src, SPAN_DANGER("[msg]"))
 			return
 
-	var/stl = CONFIG_GET(number/second_topic_limit)
+	var/stl = GLOB.configuration.url.second_topic_limit
 	if (!admin_holder && stl && href_list["window_id"] != "statbrowser")
 		var/second = round(world.time, 10)
 		if (!topiclimiter)
@@ -113,7 +113,7 @@ GLOBAL_LIST_INIT(whitelisted_client_procs, list(
 		return
 
 	//Logs all other hrefs
-	if(CONFIG_GET(flag/log_hrefs) && GLOB.world_href_log)
+	if(GLOB.configuration.logging.log_hrefs && GLOB.world_href_log)
 		WRITE_LOG(GLOB.world_href_log, "<small>[src] (usr:[usr])</small> || [hsrc ? "[hsrc] " : ""][href]<br>")
 
 	if(href_list["reload_tguipanel"])
@@ -243,7 +243,7 @@ GLOBAL_LIST_INIT(whitelisted_client_procs, list(
 	return ..() //redirect to hsrc.Topic()
 
 /client/proc/handle_spam_prevention(message, mute_type)
-	if(CONFIG_GET(flag/automute_on) && !admin_holder && src.last_message == message)
+	if(GLOB.configuration.misc.automute_on && !admin_holder && src.last_message == message)
 		src.last_message_count++
 		if(src.last_message_count >= SPAM_TRIGGER_AUTOMUTE)
 			to_chat(src, SPAN_DANGER("You have exceeded the spam filter limit for identical messages. An auto-mute was applied."))
@@ -298,7 +298,7 @@ GLOBAL_LIST_INIT(whitelisted_client_procs, list(
 
 	// Change the way they should download resources.
 	var/static/next_external_rsc = 0
-	var/list/external_rsc_urls = CONFIG_GET(keyed_list/external_rsc_urls)
+	var/list/external_rsc_urls = GLOB.configuration.url.external_rsc_urls
 	if(length(external_rsc_urls))
 		next_external_rsc = WRAP(next_external_rsc+1, 1, length(external_rsc_urls)+1)
 		preload_rsc = external_rsc_urls[next_external_rsc]
@@ -348,14 +348,13 @@ GLOBAL_LIST_INIT(whitelisted_client_procs, list(
 		INVOKE_ASYNC(src, /client/proc/set_macros)
 
 	// Version check below if we ever need to start checking against BYOND versions again.
-	var/breaking_version = CONFIG_GET(number/client_error_version)
-	var/breaking_build = CONFIG_GET(number/client_error_build)
-	var/warn_version = CONFIG_GET(number/client_warn_version)
-	var/warn_build = CONFIG_GET(number/client_warn_build)
+	var/breaking_version = GLOB.configuration.misc.client_error_version
+	var/breaking_build = GLOB.configuration.misc.client_error_build
+	var/warn_version = GLOB.configuration.misc.client_warn_version
+	var/warn_build = GLOB.configuration.misc.client_warn_build
 
 	if (byond_version < breaking_version || (byond_version == breaking_version && byond_build < breaking_build)) //Out of date client.
 		to_chat_immediate(src, SPAN_DANGER("<b>Your version of BYOND is too old:</b>"))
-		to_chat_immediate(src, CONFIG_GET(string/client_error_message))
 		to_chat_immediate(src, "Your version: [byond_version].[byond_build]")
 		to_chat_immediate(src, "Required version: [breaking_version].[breaking_build] or later")
 		to_chat_immediate(src, "Visit <a href=\"https://www.byond.com/download\">BYOND's website</a> to get the latest version of BYOND.")
@@ -363,16 +362,14 @@ GLOBAL_LIST_INIT(whitelisted_client_procs, list(
 		return
 
 	if (byond_version < warn_version || (byond_version == warn_version && byond_build < warn_build)) //We have words for this client.
-		if(CONFIG_GET(flag/client_warn_popup))
+		if(GLOB.configuration.misc.client_warn_popup)
 			var/msg = "<b>Your version of BYOND may be getting out of date:</b><br>"
-			msg += CONFIG_GET(string/client_warn_message) + "<br><br>"
 			msg += "Your version: [byond_version].[byond_build]<br>"
 			msg += "Required version to remove this message: [warn_version].[warn_build] or later<br>"
 			msg += "Visit <a href=\"https://www.byond.com/download\">BYOND's website</a> to get the latest version of BYOND.<br>"
 			src << browse(msg, "window=warning_popup")
 		else
 			to_chat(src, SPAN_DANGER("<b>Your version of BYOND may be getting out of date:</b>"))
-			to_chat(src, CONFIG_GET(string/client_warn_message))
 			to_chat(src, "Your version: [byond_version].[byond_build]")
 			to_chat(src, "Required version to remove this message: [warn_version].[warn_build] or later")
 			to_chat(src, "Visit <a href=\"https://www.byond.com/download\">BYOND's website</a> to get the latest version of BYOND.")
@@ -447,7 +444,7 @@ GLOBAL_LIST_INIT(whitelisted_client_procs, list(
 
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CLIENT_LOGGED_IN, src)
 
-	if(CONFIG_GET(flag/ooc_country_flags))
+	if(GLOB.configuration.misc.ooc_country_flags)
 		spawn if(src)
 			ip2country(address, src)
 
@@ -504,7 +501,7 @@ GLOBAL_LIST_INIT(whitelisted_client_procs, list(
 		var/list/adm = get_admin_counts(R_MOD)
 		REDIS_PUBLISH("byond.access", "type" = "login", "key" = src.key, "remaining" = length(adm["total"]), "afk" = length(adm["afk"]))
 
-	if(CONFIG_GET(flag/log_access))
+	if(GLOB.configuration.logging.log_access)
 		for(var/mob/M in GLOB.player_list)
 			if( M.key && (M.key != key) )
 				var/matches
@@ -918,7 +915,7 @@ GLOBAL_LIST_INIT(whitelisted_client_procs, list(
 	return success
 
 /client/proc/check_localhost_status()
-	if(CONFIG_GET(flag/no_localhost_rank))
+	if(GLOB.configuration.misc.no_localhost_rank)
 		return FALSE
 
 	var/static/list/localhost_addresses = list("127.0.0.1", "::1")
