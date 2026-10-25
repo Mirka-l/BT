@@ -36,7 +36,7 @@ SUBSYSTEM_DEF(vote)
 
 /datum/controller/subsystem/vote/fire()
 	if(mode)
-		time_remaining = floor((started_time + GLOB.configuration.misc.vote_period - world.time)/10)
+		time_remaining = floor((started_time + GLOB.configuration.vote.vote_period - world.time)/10)
 
 		if(time_remaining < 0)
 			result()
@@ -87,7 +87,7 @@ SUBSYSTEM_DEF(vote)
 
 		if(current_votes > greatest_votes)
 			greatest_votes = current_votes
-	if(!GLOB.configuration.misc.default_no_vote && length(choices))
+	if(!GLOB.configuration.vote.default_no_vote && length(choices))
 		var/list/non_voters = GLOB.directory.Copy()
 		non_voters -= voted
 		for (var/non_voter_ckey in non_voters)
@@ -186,7 +186,7 @@ SUBSYSTEM_DEF(vote)
 
 /datum/controller/subsystem/vote/proc/submit_vote(vote)
 	if(mode)
-		if(GLOB.configuration.misc.no_dead_vote && usr.stat == DEAD && !check_rights(R_ADMIN))
+		if(GLOB.configuration.vote.no_dead_vote && usr.stat == DEAD && !check_rights(R_ADMIN))
 			return FALSE
 		if(!(usr.ckey in voted))
 			if(vote in choices)
@@ -240,7 +240,7 @@ SUBSYSTEM_DEF(vote)
 					return FALSE
 
 		if(started_time)
-			var/next_allowed_time = (started_time + GLOB.configuration.misc.vote_delay)
+			var/next_allowed_time = (started_time + GLOB.configuration.vote.vote_delay)
 			if(mode)
 				to_chat(usr, SPAN_WARNING("There is already a vote in progress! Please wait for it to finish."))
 				return FALSE
@@ -284,7 +284,7 @@ SUBSYSTEM_DEF(vote)
 		if(mode == "custom")
 			text += "<br>[question]"
 		log_vote(text)
-		var/vp = GLOB.configuration.misc.vote_period
+		var/vp = GLOB.configuration.vote.vote_period
 		SEND_SOUND(world, sound(vote_sound, channel = SOUND_CHANNEL_VOX, volume = vote_sound_vol))
 		to_chat(world, SPAN_CENTERBOLD("<br><br><font color='purple'><b>[text]</b><br>Type <b>vote</b> or click <a href='byond://?src=[REF(src)]'>here</a> to place your votes.<br>You have [DisplayTimeText(vp)] to vote.</font><br><br>"))
 		time_remaining = floor(vp/10)
@@ -304,7 +304,7 @@ SUBSYSTEM_DEF(vote)
 
 /datum/controller/subsystem/vote/proc/map_vote_adjustment(current_votes, carry_over, total_votes)
 	// Get 10% of the total map votes and remove them from the pool
-	var/total_vote_adjustment = floor(total_votes * GLOB.configuration.misc.vote_adjustment_callback)
+	var/total_vote_adjustment = floor(total_votes * GLOB.configuration.vote.vote_adjustment_callback)
 
 	// Do not remove more votes than were made for the map
 	return -(min(current_votes, total_vote_adjustment))
@@ -374,7 +374,7 @@ SUBSYSTEM_DEF(vote)
 /datum/controller/subsystem/vote/proc/get_config_restrictions()
 	. = list()
 
-	.["can_restart_vote"] = GLOB.configuration.misc.allow_vote_restart
+	.["can_restart_vote"] = GLOB.configuration.vote.allow_vote_restart
 
 // possible_vote_types JSON TABLE FOR THE CLIENT MENU
 // PARAMETERS
@@ -437,10 +437,10 @@ GLOBAL_LIST_INIT(possible_vote_types, list(
 				reset()
 				to_chat(world, "<b><font color='purple'>The vote has been cancelled.</font></b>")
 			if("toggle_restart")
-				if(GLOB.configuration.misc.allow_vote_restart)
-					GLOB.configuration.misc.allow_vote_restart = FALSE
+				if(GLOB.configuration.vote.allow_vote_restart)
+					GLOB.configuration.vote.allow_vote_restart = FALSE
 				else
-					GLOB.configuration.misc.allow_vote_restart = TRUE
+					GLOB.configuration.vote.allow_vote_restart = TRUE
 
 	switch(action)
 		if("initiate_vote")

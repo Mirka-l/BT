@@ -55,8 +55,7 @@
 	if(!disp_title)
 		disp_title = title
 
-	if(config.configuration_loaded)
-		on_config_load()
+	on_config_load()
 
 /datum/job/proc/on_config_load()
 	if(entry_message_body)

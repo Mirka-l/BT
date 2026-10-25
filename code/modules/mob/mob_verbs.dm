@@ -110,7 +110,7 @@
 	if(client.admin_holder && (client.admin_holder.rights & R_ADMIN))
 		is_admin = 1
 
-	if (!GLOB.configuration.misc.respawn && !is_admin)
+	if (!GLOB.configuration.options.respawn && !is_admin)
 		to_chat(usr, SPAN_NOTICE(" Respawn is disabled."))
 		return
 	if (stat != 2)

@@ -8,7 +8,6 @@
 
 	//trigger things to run the whole process
 	SSticker.request_start()
-	CONFIG_SET(number/round_end_countdown, 0)
 	SSticker.OnRoundstart(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(generate_autowiki)))
 
 /proc/generate_autowiki()

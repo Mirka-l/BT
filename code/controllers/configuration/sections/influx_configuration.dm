@@ -1,4 +1,5 @@
 /datum/configuration_section/influx_configuration
+	protection_state = PROTECTION_PRIVATE
 	var/influxdb_send_period
 	var/influxdb_mcstats_period
 	var/influxdb_stats_period
@@ -11,7 +12,6 @@
 	CONFIG_LOAD_NUM(influxdb_send_period, data["influxdb_send_period"])
 	CONFIG_LOAD_NUM(influxdb_mcstats_period, data["influxdb_mcstats_period"])
 	CONFIG_LOAD_NUM(influxdb_stats_period, data["influxdb_stats_period"])
-
 	CONFIG_LOAD_STR(influxdb_host, data["influxdb_host"])
 	CONFIG_LOAD_STR(influxdb_token, data["influxdb_token"])
 	CONFIG_LOAD_STR(influxdb_bucket, data["influxdb_bucket"])

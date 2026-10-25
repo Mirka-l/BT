@@ -1,4 +1,5 @@
 /datum/configuration_section/database_configuration
+	protection_state = PROTECTION_PRIVATE
 	var/db_debug_mode = FALSE
 	var/db_address
 	var/db_port
@@ -12,7 +13,6 @@
 
 /datum/configuration_section/database_configuration/load_data(list/data)
 	CONFIG_LOAD_BOOL(db_debug_mode, data["db_debug_mode"])
-
 	CONFIG_LOAD_STR(db_address, data["db_address"])
 	CONFIG_LOAD_STR(db_port, data["db_port"])
 	CONFIG_LOAD_STR(db_username, data["db_username"])

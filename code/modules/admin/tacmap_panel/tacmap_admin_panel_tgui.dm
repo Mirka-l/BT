@@ -17,7 +17,7 @@ GLOBAL_DATUM_INIT(tacmap_admin_panel, /datum/tacmap_admin_panel, new)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		if(!wiki_map_fallback)
-			var/wiki_url = GLOB.configuration.url.wikiurl
+			var/wiki_url = GLOB.configuration.url.wiki_url
 			var/obj/item/map/current_map/new_map = new
 			if(wiki_url && new_map.html_link)
 				wiki_map_fallback ="[wiki_url]/[new_map.html_link]"

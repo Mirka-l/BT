@@ -108,8 +108,6 @@
 	data = list()
 
 	data["mode"] = GLOB.master_mode
-	data["vote"] = GLOB.configuration.misc.allow_vote_mode
-	data["ai"] = GLOB.configuration.misc.allow_ai
 	data["host"] = world.host ? world.host : null
 	data["round_id"] = text2num(GLOB.round_id)
 	data["players"] = length(GLOB.clients)

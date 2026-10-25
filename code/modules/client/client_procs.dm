@@ -76,7 +76,7 @@ GLOBAL_LIST_INIT(whitelisted_client_procs, list(
 			return
 
 	// Rate limiting
-	var/mtl = GLOB.configuration.url.minute_topic_limit
+	var/mtl = GLOB.configuration.topic.minute_topic_limit
 	if (!admin_holder && mtl)
 		var/minute = round(world.time, 600)
 		if (!topiclimiter)
@@ -95,7 +95,7 @@ GLOBAL_LIST_INIT(whitelisted_client_procs, list(
 			to_chat(src, SPAN_DANGER("[msg]"))
 			return
 
-	var/stl = GLOB.configuration.url.second_topic_limit
+	var/stl = GLOB.configuration.topic.second_topic_limit
 	if (!admin_holder && stl && href_list["window_id"] != "statbrowser")
 		var/second = round(world.time, 10)
 		if (!topiclimiter)

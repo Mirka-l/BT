@@ -21,7 +21,7 @@ GLOBAL_LIST_INIT(mapless_maps, list(MAP_RUNTIME, MAP_CHINOOK, MAIN_SHIP_DEFAULT_
 	return
 
 /obj/item/map/proc/initialize_map()
-	var/wikiurl = GLOB.configuration.url.wikiurl
+	var/wikiurl = GLOB.configuration.url.wiki_url
 	if(wikiurl && html_link)
 		dat = {"
 				<!DOCTYPE html>

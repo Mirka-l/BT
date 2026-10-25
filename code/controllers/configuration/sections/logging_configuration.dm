@@ -1,5 +1,6 @@
 /// Config holder for all things regarding logging
 /datum/configuration_section/logging_configuration
+	protection_state = PROTECTION_READONLY
 	var/log_debug = TRUE
 	var/log_asset = TRUE
 	var/log_ooc = TRUE
@@ -18,7 +19,6 @@
 	var/log_whisper = TRUE
 	var/log_attack = TRUE
 	var/log_emote = TRUE
-	var/log_world_topic = TRUE
 	var/log_manifest = TRUE
 	var/log_admin = TRUE
 	var/log_adminchat = TRUE
@@ -45,7 +45,6 @@
 	CONFIG_LOAD_BOOL(log_whisper, data["log_whisper"])
 	CONFIG_LOAD_BOOL(log_attack, data["log_attack"])
 	CONFIG_LOAD_BOOL(log_emote, data["log_emote"])
-	CONFIG_LOAD_BOOL(log_world_topic, data["log_world_topic"])
 	CONFIG_LOAD_BOOL(log_manifest, data["log_manifest"])
 	CONFIG_LOAD_BOOL(log_admin, data["log_admin"])
 	CONFIG_LOAD_BOOL(log_adminchat, data["log_adminchat"])

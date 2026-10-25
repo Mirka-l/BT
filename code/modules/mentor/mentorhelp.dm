@@ -325,13 +325,13 @@
 	var/msg = SPAN_MENTORSAY("<span class='prefix'>Autoresponse:</span> <span class='message'>[choice]</span>")
 	switch(choice)
 		if("L: Discord")
-			msg += "You can join our Discord server by using <a href='[GLOB.configuration.url.discordurl]'>this link</a>!"
+			msg += "You can join our Discord server by using <a href='[GLOB.configuration.discord.discord_url]'>this link</a>!"
 		if("L: Xeno Quickstart Guide")
 			msg += "Your answer can be found on the Xeno Quickstart Guide on our wiki. <a href='[GLOB.configuration.url.wiki_article_url]/[URL_WIKI_XENO_QUICKSTART]'>Check it out here.</a>"
 		if("L: Marine Quickstart Guide")
 			msg += "Your answer can be found on the Marine Quickstart Guide on our wiki. <a href='[GLOB.configuration.url.wiki_article_url]/[URL_WIKI_MARINE_QUICKSTART]'>Check it out here.</a>"
 		if("L: Current Map")
-			msg += "If you need a map overview of the current round, use Current Map verb in OOC tab to check name of the map. Then open our <a href='[GLOB.configuration.url.wikiurl]'>wiki front page</a> and look for the map overview in the 'Maps' section. If the map is not listed, it's a new or rare map and the overview hasn't been finished yet."
+			msg += "If you need a map overview of the current round, use Current Map verb in OOC tab to check name of the map. Then open our <a href='[GLOB.configuration.url.wiki_url]'>wiki front page</a> and look for the map overview in the 'Maps' section. If the map is not listed, it's a new or rare map and the overview hasn't been finished yet."
 		if("A: No plasma regen")
 			msg += "If you have low/no plasma regen, it's most likely because you are off weeds or are currently using a passive ability, such as the Runner's 'Hide' or emitting a pheromone."
 		if("A: Devour as Xeno")

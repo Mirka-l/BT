@@ -1,4 +1,5 @@
 /datum/configuration_section/redis_configuration
+	protection_state = PROTECTION_PRIVATE
 	var/instance_name
 	var/redis_logging
 	var/redis_enabled

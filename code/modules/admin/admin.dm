@@ -154,12 +154,12 @@
 	set category = "Server"
 	set desc = "Respawn basically"
 	set name = "Toggle Respawn"
-	GLOB.configuration.misc.respawn = !GLOB.configuration.misc.respawn
-	if (GLOB.configuration.misc.respawn)
+	GLOB.configuration.options.respawn = !GLOB.configuration.options.respawn
+	if (GLOB.configuration.options.respawn)
 		to_world("<B>You may now respawn.</B>")
 	else
 		to_world("<B>You may no longer respawn :(</B>")
-	message_admins("[key_name_admin(usr)] toggled respawn to [GLOB.configuration.misc.respawn ? "On" : "Off"].")
+	message_admins("[key_name_admin(usr)] toggled respawn to [GLOB.configuration.options.respawn ? "On" : "Off"].")
 	world.update_status()
 
 

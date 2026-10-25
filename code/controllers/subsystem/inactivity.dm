@@ -8,13 +8,12 @@ SUBSYSTEM_DEF(inactivity)
 	runlevels = RUNLEVELS_DEFAULT|RUNLEVEL_LOBBY
 
 /datum/controller/subsystem/inactivity/fire(resumed = FALSE)
+	if(!GLOB.configuration.misc.kick_inactive)
+		return
 	if(list_clear_nulls(GLOB.clients))
 		debug_log("Removed nulls from GLOB.clients!")
 	if(list_clear_nulls(GLOB.player_list))
 		debug_log("Removed nulls from GLOB.player_list!")
-
-	if(GLOB.configuration.misc.kick_inactive)
-		return
 
 	for(var/client/current as anything in GLOB.clients)
 		if(current.admin_holder && current.admin_holder.rights & R_MOD) //Skip admins.

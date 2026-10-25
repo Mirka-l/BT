@@ -160,12 +160,12 @@ GLOBAL_LIST_INIT(reboot_sfx, file2list("config/reboot_sfx.txt"))
 
 	var/list/response = list()
 
-	if(length(T) > GLOB.configuration.url.topic_max_size)
+	if(length(T) > GLOB.configuration.topic.topic_max_size)
 		response["statuscode"] = 413
 		response["response"] = "Payload too large"
 		return json_encode(response)
 
-	var/logging = GLOB.configuration.url.log_world_topic
+	var/logging = GLOB.configuration.topic.log_world_topic
 	var/topic_decoded = rustg_url_decode(T)
 	if(!rustg_json_is_valid(topic_decoded))
 		if(logging)
@@ -224,7 +224,7 @@ GLOBAL_LIST_INIT(reboot_sfx, file2list("config/reboot_sfx.txt"))
 /world/Reboot(reason)
 	Master.Shutdown()
 	send_reboot_sound()
-	var/server = GLOB.configuration.url.server
+	var/server = GLOB.configuration.url.server_ip
 	for(var/thing in GLOB.clients)
 		if(!thing)
 			continue
@@ -277,7 +277,7 @@ GLOBAL_LIST_INIT(reboot_sfx, file2list("config/reboot_sfx.txt"))
 	var/s = ""
 
 	if(GLOB.configuration.general.server_name)
-		s += "<a href=\"[GLOB.configuration.url.discordurl]\"><b>[GLOB.configuration.general.server_name]</b></a>"
+		s += "<a href=\"[GLOB.configuration.discord.discord_url]\"><b>[GLOB.configuration.general.server_name]</b></a>"
 		s += "<br>Hosted by: <b>[GLOB.configuration.general.hostedby]</b>"
 		s += "<br>Round time: <b>[duration2text()]</b>"
 		s += "<br>An RP server focused on a tight knit platoon fighting xenos!"
@@ -375,7 +375,6 @@ GLOBAL_LIST_INIT(reboot_sfx, file2list("config/reboot_sfx.txt"))
 
 	//trigger things to run the whole process
 	SSticker.request_start()
-	GLOB.configuration.misc.round_end_countdown = 0
 	var/datum/callback/cb
 #ifdef UNIT_TESTS
 	cb = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(RunUnitTests))

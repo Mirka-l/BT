@@ -54,13 +54,13 @@
 	if(!admin_holder)
 		return
 
-	if(GLOB.configuration.misc.remove_gun_restrictions)
+	if(GLOB.configuration.options.remove_gun_restrictions)
 		to_chat(src, "<b>Enabled gun restrictions.</b>")
 		message_admins("Admin [key_name_admin(usr)] has enabled WY gun restrictions.")
 	else
 		to_chat(src, "<b>Disabled gun restrictions.</b>")
 		message_admins("Admin [key_name_admin(usr)] has disabled WY gun restrictions.")
-	GLOB.configuration.misc.remove_gun_restrictions = !GLOB.configuration.misc.remove_gun_restrictions
+	GLOB.configuration.options.remove_gun_restrictions = !GLOB.configuration.options.remove_gun_restrictions
 
 /client/proc/togglebuildmodeself()
 	set name = "Buildmode"

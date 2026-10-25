@@ -154,7 +154,7 @@ DEFINES in setup.dm, referenced here.
 	unwield(user)
 
 /obj/item/weapon/gun/proc/wy_allowed_check(mob/living/carbon/human/user)
-	if(GLOB.configuration.misc.remove_gun_restrictions)
+	if(GLOB.configuration.options.remove_gun_restrictions)
 		return TRUE //Not if the config removed it.
 
 	switch(user.job)

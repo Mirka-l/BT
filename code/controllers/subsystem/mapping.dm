@@ -1,3 +1,6 @@
+#define CONFIG_GROUND_MAPS_FILE "maps.txt"
+#define CONFIG_SHIP_MAPS_FILE "shipmaps.txt"
+
 SUBSYSTEM_DEF(mapping)
 	name = "Mapping"
 	init_order = SS_INIT_MAPPING
@@ -523,3 +526,6 @@ SUBSYSTEM_DEF(mapping)
 				currentmap = null
 			else
 				log_config("Unknown command in map vote config: '[command]'")
+
+#undef CONFIG_GROUND_MAPS_FILE
+#undef CONFIG_SHIP_MAPS_FILE

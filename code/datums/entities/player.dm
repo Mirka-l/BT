@@ -107,7 +107,7 @@ BSQL_PROTECT_DATUM(/datum/entity/player)
 	if(!is_confidential && note_category == NOTE_ADMIN && owning_client)
 		to_chat_immediate(owning_client, SPAN_WARNING(FONT_SIZE_LARGE("You have been noted by [key_name_admin(admin.mob, FALSE)].")))
 		to_chat_immediate(owning_client, SPAN_WARNING(FONT_SIZE_BIG("The note is : [sanitize(note_text)]")))
-		to_chat_immediate(owning_client, SPAN_WARNING(FONT_SIZE_BIG("If you believe this was filed in error or misplaced, make a staff report at <a href='[GLOB.configuration.misc.staffreport]'><b>The CM Forums</b></a>")))
+		to_chat_immediate(owning_client, SPAN_WARNING(FONT_SIZE_BIG("If you believe this was filed in error or misplaced, make a staff report at <a href='[GLOB.configuration.url.ban_appeals_url]'><b>The CM Forums</b></a>")))
 		to_chat_immediate(owning_client, SPAN_WARNING(FONT_SIZE_BIG("You can also click the name of the staff member noting you to PM them.")))
 	// create new instance of player_note entity
 	var/datum/entity/player_note/note = DB_ENTITY(/datum/entity/player_note)
@@ -554,8 +554,8 @@ BSQL_PROTECT_DATUM(/datum/entity/player)
 			message_admins("Failed Login: [ckey] (IP: [last_known_ip], CID: [last_known_cid]) - Stickybanned (Reason: [sticky.reason])")
 
 		var/appeal
-		if(GLOB.configuration.misc.banappeals)
-			appeal = "\nFor more information on your ban, or to appeal, head to <a href='[GLOB.configuration.misc.banappeals]'>[GLOB.configuration.misc.banappeals]</a>"
+		if(GLOB.configuration.url.ban_appeals_url)
+			appeal = "\nFor more information on your ban, or to appeal, head to <a href='[GLOB.configuration.url.ban_appeals_url]'>[GLOB.configuration.url.ban_appeals_url]</a>"
 
 		.["desc"] = "\nReason: Stickybanned - [sticky.message] Identifier: [sticky.identifier]\n[appeal]"
 		.["reason"] = "ckey/id"
@@ -569,8 +569,8 @@ BSQL_PROTECT_DATUM(/datum/entity/player)
 		return null
 
 	var/appeal
-	if(GLOB.configuration.misc.banappeals)
-		appeal = "\nFor more information on your ban, or to appeal, head to <a href='[GLOB.configuration.misc.banappeals]'>[GLOB.configuration.misc.banappeals]</a>"
+	if(GLOB.configuration.url.ban_appeals_url)
+		appeal = "\nFor more information on your ban, or to appeal, head to <a href='[GLOB.configuration.url.ban_appeals_url]'>[GLOB.configuration.url.ban_appeals_url]</a>"
 	if(is_permabanned)
 		var/banner = "Host"
 		if(permaban_admin_id)

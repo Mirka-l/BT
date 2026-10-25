@@ -15,8 +15,6 @@
 		if(!CLIENT_IS_MENTOR(src))
 			to_chat(src, "Only staff members have permission to use this.")
 			return
-		if(!GLOB.configuration.misc.mentor_tools)
-			to_chat(src, "Mentors do not have permission to use this.")
 
 	var/age = alert(src, "Age check", "Show accounts up to how many days old ?", "7", "30" , "All")
 

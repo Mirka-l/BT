@@ -264,7 +264,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 
 	// Set world options.
-	world.change_fps(GLOB.configuration.options.fps)
+	world.change_fps(GLOB.configuration.mc.fps)
 	var/initialized_tod = REALTIMEOFDAY
 
 	if(tgs_prime)

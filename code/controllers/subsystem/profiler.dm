@@ -15,14 +15,14 @@ SUBSYSTEM_DEF(profiler)
 	return msg
 
 /datum/controller/subsystem/profiler/Initialize()
-	if(GLOB.configuration.misc.auto_profile)
+	if(GLOB.configuration.mc.auto_profile)
 		StartProfiling()
 	else
 		StopProfiling() //Stop the early start profiler
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/profiler/OnConfigLoad()
-	if(GLOB.configuration.misc.auto_profile)
+	if(GLOB.configuration.mc.auto_profile)
 		StartProfiling()
 		can_fire = TRUE
 	else
@@ -33,7 +33,7 @@ SUBSYSTEM_DEF(profiler)
 	DumpFile()
 
 /datum/controller/subsystem/profiler/Shutdown()
-	if(GLOB.configuration.misc.auto_profile)
+	if(GLOB.configuration.mc.auto_profile)
 		DumpFile(allow_yield = FALSE)
 		world.Profile(PROFILE_CLEAR, type = "sendmaps")
 	return ..()

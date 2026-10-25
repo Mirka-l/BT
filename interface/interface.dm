@@ -3,10 +3,10 @@
 	set name = "wiki"
 	set desc = "Visit the wiki."
 	set hidden = TRUE
-	if(GLOB.configuration.url.wikiurl_home_page || GLOB.configuration.url.wikiurl)
+	if(GLOB.configuration.url.wiki_url_home_page || GLOB.configuration.url.wiki_url)
 		if(tgui_alert(src, "This will open the wiki in your browser. Are you sure?", "Confirm", list("Yes", "No")) != "Yes")
 			return
-		src << link(GLOB.configuration.url.wikiurl_home_page || GLOB.configuration.url.wikiurl)
+		src << link(GLOB.configuration.url.wiki_url_home_page || GLOB.configuration.url.wiki_url)
 	else
 		to_chat(src, SPAN_DANGER("The wiki URL is not set in the server configuration."))
 	return
@@ -31,7 +31,7 @@
 	if(tgui_alert(src, "This will open the discord in your browser. Are you sure?", "Confirm", list("Yes", "No")) != "Yes")
 		return
 
-	src << link("[GLOB.configuration.url.discordurl]")
+	src << link("[GLOB.configuration.discord.discord_url]")
 	return
 
 /client/verb/github()
