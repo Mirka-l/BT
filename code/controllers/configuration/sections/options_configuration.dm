@@ -4,7 +4,7 @@
 	var/sleep_offline = TRUE
 	var/asset_transport
 	var/asset_cdn_webroot
-	var/defaultmaps
+	var/list/defaultmaps
 	var/auto_ooc_mute
 	var/remove_gun_restrictions = FALSE //flag
 	var/whiskey_required_players = 1 //number
@@ -24,7 +24,7 @@
 	CONFIG_LOAD_BOOL(sleep_offline, data["sleep_offline"])
 	CONFIG_LOAD_STR(asset_transport, data["asset_transport"])
 	CONFIG_LOAD_STR(asset_cdn_webroot, data["asset_cdn_webroot"])
-	CONFIG_LOAD_STR(defaultmaps, data["defaultmaps"])
+	CONFIG_LOAD_LIST(defaultmaps, data["defaultmaps"])
 	CONFIG_LOAD_BOOL(auto_ooc_mute, data["auto_ooc_mute"])
 	CONFIG_LOAD_BOOL(remove_gun_restrictions, data["remove_gun_restrictions"])
 	CONFIG_LOAD_NUM(whiskey_required_players, data["whiskey_required_players"])

@@ -129,7 +129,7 @@ explosive_antigrief = ANTIGRIEF_DISABLED
 sleep_offline = true
 asset_transport
 asset_cdn_webroot
-defaultmaps
+defaultmaps = { ground_map = "maps/lv624.json", ship_map = "maps/golden_arrow.json" }
 auto_ooc_mute
 remove_gun_restrictions = false
 whiskey_required_players = 1

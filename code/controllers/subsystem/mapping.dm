@@ -63,8 +63,10 @@ SUBSYSTEM_DEF(mapping)
 		var/datum/map_config/MC = configs[i]
 		if(MC.defaulted)
 			var/old_config = configs[i]
-			configs[i] = GLOB.configuration.options.defaultmaps[i]
-			if(!configs || configs[i].defaulted)
+			var/default_map_path = GLOB.configuration.options.defaultmaps?[i]
+			if(default_map_path)
+				configs[i] = load_map_config(default_map_path, error_if_missing = FALSE)
+			if(!configs[i] || configs[i].defaulted)
 				to_chat(world, SPAN_BOLDANNOUNCE("Unable to load next or default map config, defaulting."))
 				configs[i] = old_config
 

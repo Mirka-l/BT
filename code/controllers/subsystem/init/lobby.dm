@@ -16,18 +16,20 @@ SUBSYSTEM_DEF(lobby)
 
 	lobby_music = fill_music_pool()
 	if(length(lobby_music))
-		var/key = SAFEPICK(lobby_music)
-		if(key)
-			SSticker.login_music = file(lobby_music[key])
+		var/music_file = SAFEPICK(lobby_music)
+		if(music_file)
+			SSticker.login_music = file("[MUSIC_PATH][music_file]")
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/lobby/proc/fill_title_images_pool()
 	for(var/file_name in flist(TITLE_SCREENS_PATH))
-		lobby_arts = file_name
+		lobby_arts.Add(splittext(file_name, ".")[1])
+	return lobby_arts
 
 /datum/controller/subsystem/lobby/proc/fill_music_pool()
 	for(var/file_name in flist(MUSIC_PATH))
-		lobby_music = file_name
+		lobby_music.Add(file_name)
+	return lobby_music
 
 #undef TITLE_SCREENS_PATH
 #undef MUSIC_PATH
