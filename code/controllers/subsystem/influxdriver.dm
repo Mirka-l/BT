@@ -19,7 +19,7 @@ SUBSYSTEM_DEF(influxdriver)
 	var/timestamp_cache_worldtime
 
 /datum/controller/subsystem/influxdriver/Initialize()
-	var/period = text2num(CONFIG_GET(number/influxdb_send_period))
+	var/period = text2num(GLOB.configuration.influx.influxdb_send_period)
 	if(isnum(period))
 		wait = max(period * (1 SECONDS), 2 SECONDS)
 	return SS_INIT_SUCCESS
@@ -50,10 +50,10 @@ SUBSYSTEM_DEF(influxdriver)
 /datum/controller/subsystem/influxdriver/proc/flush_queue(list/queue)
 	PRIVATE_PROC(TRUE)
 
-	var/host   = CONFIG_GET(string/influxdb_host)
-	var/token  = CONFIG_GET(string/influxdb_token)
-	var/bucket = CONFIG_GET(string/influxdb_bucket)
-	var/org    = CONFIG_GET(string/influxdb_org)
+	var/host   = GLOB.configuration.influx.influxdb_host
+	var/token  = GLOB.configuration.influx.influxdb_token
+	var/bucket = GLOB.configuration.influx.influxdb_bucket
+	var/org    = GLOB.configuration.influx.influxdb_org
 
 	if(!host || !token || !bucket || !org)
 		can_fire = FALSE

@@ -119,8 +119,8 @@ Additional game mode variables.
 //===================================================\\
 
 /datum/game_mode/proc/initialize_special_clamps()
-	xeno_starting_num = clamp((GLOB.readied_players/CONFIG_GET(number/xeno_number_divider)), xeno_required_num, INFINITY) //(n, minimum, maximum)
-	surv_starting_num = clamp((GLOB.readied_players/CONFIG_GET(number/surv_number_divider)), 2, 8) //this doesnt run
+	xeno_starting_num = clamp((GLOB.readied_players/GLOB.configuration.options.xeno_number_divider), xeno_required_num, INFINITY) //(n, minimum, maximum)
+	surv_starting_num = clamp((GLOB.readied_players/GLOB.configuration.options.surv_number_divider), 2, 8) //this doesnt run
 	marine_starting_num = length(GLOB.player_list) - xeno_starting_num - surv_starting_num
 	for(var/datum/squad/sq in GLOB.RoleAuthority.squads)
 		if(sq)

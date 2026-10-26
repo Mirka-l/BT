@@ -1,3 +1,6 @@
+#define CONFIG_GROUND_MAPS_FILE "maps.txt"
+#define CONFIG_SHIP_MAPS_FILE "shipmaps.txt"
+
 SUBSYSTEM_DEF(mapping)
 	name = "Mapping"
 	init_order = SS_INIT_MAPPING
@@ -5,6 +8,11 @@ SUBSYSTEM_DEF(mapping)
 
 	var/list/datum/map_config/configs
 	var/list/datum/map_config/next_map_configs
+
+	var/map_directory = "map_config"
+
+	var/list/list/maplist
+	var/list/defaultmaps
 
 	///Name of all maps
 	var/list/map_templates = list()
@@ -44,7 +52,7 @@ SUBSYSTEM_DEF(mapping)
 /datum/controller/subsystem/mapping/proc/HACK_LoadMapConfig()
 	if(!configs)
 		configs = load_map_configs(ALL_MAPTYPES, error_if_missing = FALSE)
-		world.name = "[CONFIG_GET(string/title)] - [SSmapping.configs[SHIP_MAP].map_name]"
+		world.name = "[SSmapping.configs[SHIP_MAP].map_name]"
 
 /datum/controller/subsystem/mapping/Initialize(timeofday)
 	HACK_LoadMapConfig()
@@ -55,8 +63,10 @@ SUBSYSTEM_DEF(mapping)
 		var/datum/map_config/MC = configs[i]
 		if(MC.defaulted)
 			var/old_config = configs[i]
-			configs[i] = global.config.defaultmaps[i]
-			if(!configs || configs[i].defaulted)
+			var/default_map_path = GLOB.configuration.options.defaultmaps?[i]
+			if(default_map_path)
+				configs[i] = load_map_config(default_map_path, error_if_missing = FALSE)
+			if(!configs[i] || configs[i].defaulted)
 				to_chat(world, SPAN_BOLDANNOUNCE("Unable to load next or default map config, defaulting."))
 				configs[i] = old_config
 
@@ -68,10 +78,13 @@ SUBSYSTEM_DEF(mapping)
 	initialize_reserved_level(base_transit.z_value)
 	repopulate_sorted_areas()
 
+	loadmaplist(CONFIG_GROUND_MAPS_FILE, GROUND_MAP)
+	loadmaplist(CONFIG_SHIP_MAPS_FILE, SHIP_MAP)
+
 	if(configs[GROUND_MAP])
-		send2chat(new /datum/tgs_message_content("<@&[CONFIG_GET(string/new_round_alert_role_id)]> Round restarted! Map is [configs[GROUND_MAP].map_name]"), CONFIG_GET(string/new_round_alert_channel))
+		send2chat(new /datum/tgs_message_content("<@&[GLOB.configuration.url.new_round_alert_role_id]> Round restarted! Map is [configs[GROUND_MAP].map_name]"), GLOB.configuration.url.new_round_alert_channel)
 	else
-		send2chat(new /datum/tgs_message_content("<@&[CONFIG_GET(string/new_round_alert_role_id)]> Round started!"), CONFIG_GET(string/new_round_alert_channel))
+		send2chat(new /datum/tgs_message_content("<@&[GLOB.configuration.url.new_round_alert_role_id]> Round started!"), GLOB.configuration.url.new_round_alert_channel)
 
 	return SS_INIT_SUCCESS
 
@@ -458,3 +471,63 @@ SUBSYSTEM_DEF(mapping)
 	if(!MC)
 		return MAIN_SHIP_DEFAULT_PLATOON
 	return MC.platoon
+
+/datum/controller/subsystem/mapping/proc/loadmaplist(filename, maptype)
+	log_config("Loading config file [filename]...")
+	filename = "[map_directory]/[filename]"
+	var/list/Lines = file2list(filename)
+
+	var/datum/map_config/currentmap
+	for(var/t in Lines)
+		if(!t)
+			continue
+
+		t = trim(t)
+		if(length(t) == 0)
+			continue
+		else if(copytext(t, 1, 2) == "#")
+			continue
+
+		var/pos = findtext(t, " ")
+		var/command = null
+		var/data = null
+
+		if(pos)
+			command = lowertext(copytext(t, 1, pos))
+			data = copytext(t, pos + 1)
+		else
+			command = lowertext(t)
+
+		if(!command)
+			continue
+
+		if(!currentmap && command != "map")
+			continue
+
+		switch(command)
+			if("map")
+				currentmap = load_map_config("maps/[data].json")
+				if(currentmap.defaulted)
+					log_config("Failed to load map config for [data]!")
+					currentmap = null
+			if("minplayers", "minplayer")
+				currentmap.config_min_users = text2num(data)
+			if("maxplayers", "maxplayer")
+				currentmap.config_max_users = text2num(data)
+			if("weight", "voteweight")
+				currentmap.voteweight = text2num(data)
+			if("default", "defaultmap")
+				LAZYINITLIST(defaultmaps)
+				defaultmaps[maptype] = currentmap
+			if("endmap")
+				LAZYINITLIST(maplist)
+				LAZYINITLIST(maplist[maptype])
+				maplist[maptype][currentmap.map_name] = currentmap
+				currentmap = null
+			if("disabled")
+				currentmap = null
+			else
+				log_config("Unknown command in map vote config: '[command]'")
+
+#undef CONFIG_GROUND_MAPS_FILE
+#undef CONFIG_SHIP_MAPS_FILE

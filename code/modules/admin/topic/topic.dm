@@ -5,7 +5,7 @@
 		return
 	var/msg = !auth ? "no" : "a bad"
 	message_admins("[key_name_admin(usr)] clicked an href with [msg] authorization key!")
-	if(CONFIG_GET(flag/debug_admin_hrefs))
+	if(GLOB.configuration.misc.debug_admin_hrefs)
 		message_admins("Debug mode enabled, call not blocked. Please ask your coders to review this round's logs.")
 		log_world("UAH: [href]")
 		return TRUE
@@ -85,19 +85,19 @@
 				if(null,"") return
 				if("*New Rank*")
 					new_rank = input("Please input a new rank", "New custom rank", null, null) as null|text
-					if(CONFIG_GET(flag/admin_legacy_system))
+					if(GLOB.configuration.misc.admin_legacy_system)
 						new_rank = ckeyEx(new_rank)
 					if(!new_rank)
 						to_chat(usr, "<font color='red'>Error: Topic 'editrights': Invalid rank</font>")
 						return
-					if(CONFIG_GET(flag/admin_legacy_system))
+					if(GLOB.configuration.misc.admin_legacy_system)
 						if(length(GLOB.admin_ranks))
 							if(new_rank in GLOB.admin_ranks)
 								rights = GLOB.admin_ranks[new_rank] //we typed a rank which already exists, use its rights
 							else
 								GLOB.admin_ranks[new_rank] = 0 //add the new rank to admin_ranks
 				else
-					if(CONFIG_GET(flag/admin_legacy_system))
+					if(GLOB.configuration.misc.admin_legacy_system)
 						new_rank = ckeyEx(new_rank)
 						rights = GLOB.admin_ranks[new_rank] //we input an existing rank, use its rights
 
@@ -755,12 +755,6 @@
 
 	else if(href_list["c_mode"])
 		if(!check_rights(R_ADMIN)) return
-
-		var/dat = {"<B>What mode do you wish to play?</B><HR>"}
-		for(var/mode in config.modes)
-			dat += {"<A href='byond://?_src_=admin_holder;[HrefToken(forceGlobal = TRUE)];c_mode2=[mode]'>[config.mode_names[mode]]</A><br>"}
-		dat += {"Now: [GLOB.master_mode]"}
-		show_browser(usr, dat, "Change Gamemode", "c_mode")
 
 	else if(href_list["c_mode2"])
 		if(!check_rights(R_ADMIN|R_SERVER)) return

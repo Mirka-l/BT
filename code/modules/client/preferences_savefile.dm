@@ -208,7 +208,7 @@
 
 /datum/preferences/proc/load_path(ckey,filename="preferences.sav")
 	if(!ckey) return
-	path = "[CONFIG_GET(string/playersave_path)]/[copytext(ckey,1,2)]/[ckey]/[filename]"
+	path = "[GLOB.configuration.misc.playersave_path]/[copytext(ckey,1,2)]/[ckey]/[filename]"
 	savefile_version = SAVEFILE_VERSION_MAX
 
 /proc/sanitize_keybindings(value)
@@ -345,7 +345,7 @@
 	S["remembered_key_bindings"] >> remembered_key_bindings
 
 	//Sanitize
-	ooccolor = sanitize_hexcolor(ooccolor, CONFIG_GET(string/ooc_color_normal))
+	ooccolor = sanitize_hexcolor(ooccolor, GLOB.normal_ooc_colour)
 	lastchangelog = sanitize_text(lastchangelog, initial(lastchangelog))
 	UI_style = sanitize_inlist(UI_style, list("white", "dark", "midnight", "orange", "old"), initial(UI_style))
 	tgui_say = sanitize_integer(tgui_say, FALSE, TRUE, TRUE)

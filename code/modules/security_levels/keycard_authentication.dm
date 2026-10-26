@@ -65,8 +65,7 @@
 	if(screen == 1)
 		dat += "Select an event to trigger:<ul>"
 		dat += "<li><A href='byond://?src=\ref[src];triggerevent=Red alert'>Red alert</A></li>"
-		if(!CONFIG_GET(flag/ert_admin_call_only))
-			dat += "<li><A href='byond://?src=\ref[src];triggerevent=Emergency Response Team'>Emergency Response Team</A></li>"
+		dat += "<li><A href='byond://?src=\ref[src];triggerevent=Emergency Response Team'>Emergency Response Team</A></li>"
 
 		dat += "<li><A href='byond://?src=\ref[src];triggerevent=enable_maint_sec'>Enable Maintenance Security</A></li>"
 		dat += "<li><A href='byond://?src=\ref[src];triggerevent=disable_maint_sec'>Disable Maintenance Security</A></li>"
@@ -146,7 +145,6 @@
 			revoke_maint_all_access()
 
 /obj/structure/machinery/keycard_auth/proc/is_ert_blocked()
-	if(CONFIG_GET(flag/ert_admin_call_only)) return 1
 	return SSticker.mode && SSticker.mode.ert_disabled
 
 GLOBAL_VAR_INIT(maint_all_access, TRUE)

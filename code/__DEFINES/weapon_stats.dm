@@ -333,3 +333,8 @@ Fire Variant = Markers for special fire types that behave outside of chemfire co
 #define FIRE_VARIANT_TYPE_X 2
 // Lowers burn damage to humans
 #define HUMAN_BURN_DIVIDER 5
+
+////AIM////
+
+#define AIM_SLOWDOWN_MED 1 // сюда значение из конфига вынести
+#define AIM_SLOWDOWN_LOW 1  // сюда значение из конфига вынести

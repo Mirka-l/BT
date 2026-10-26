@@ -81,7 +81,7 @@
 
 /datum/game_mode/whiskey_outpost/New()
 	. = ..()
-	required_players = CONFIG_GET(number/whiskey_required_players)
+	required_players = GLOB.configuration.options.whiskey_required_players
 
 /datum/game_mode/whiskey_outpost/get_roles_list()
 	return GLOB.ROLES_WO
@@ -115,7 +115,7 @@
 	initialize_post_marine_gear_list()
 	lobby_time = world.time
 
-	CONFIG_SET(flag/remove_gun_restrictions, TRUE)
+	GLOB.configuration.options.remove_gun_restrictions = TRUE
 	sleep(10)
 	to_world(SPAN_ROUND_HEADER("The current game mode is - WHISKEY OUTPOST!"))
 	to_world(SPAN_ROUNDBODY("It is the year 2177 on the planet LV-624, five years before the arrival of the USS Almayer and the 2nd 'Falling Falcons' Battalion in the sector"))

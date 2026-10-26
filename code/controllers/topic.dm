@@ -15,7 +15,7 @@ SUBSYSTEM_DEF(topic)
 	// Setup the anonymous access token
 	GLOB.topic_tokens["anonymous"] = anonymous_functions
 	// Parse and setup authed tokens from config
-	var/list/tokens = CONFIG_GET(keyed_list/topic_tokens)
+	var/list/tokens = GLOB.configuration.topic.topic_tokens
 	for(var/token in tokens)
 		var/list/keys = list()
 		if(tokens[token] == "all")

@@ -597,7 +597,7 @@
 	running_round_stats = running_round_stats + list(total_data)
 
 /datum/game_mode/colonialmarines/proc/handle_round_results_statistics_output()
-	var/webhook = CONFIG_GET(string/round_results_webhook_url)
+	var/webhook = GLOB.configuration.url.round_results_webhook_url
 
 	if(!webhook)
 		return

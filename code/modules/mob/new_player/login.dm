@@ -28,7 +28,7 @@
 	client.change_view(GLOB.lobby_view_size)
 	// Credit the lobby art author
 	if(GLOB.displayed_lobby_art != -1)
-		var/list/lobby_authors = CONFIG_GET(str_list/lobby_art_authors)
+		var/list/lobby_authors = SSlobby.lobby_arts
 		var/author = lobby_authors[GLOB.displayed_lobby_art]
 		if(author != "Unknown")
 			to_chat(src, SPAN_ROUNDBODY("<hr>This round's lobby art is brought to you by [author]<hr>"))

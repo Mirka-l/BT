@@ -205,7 +205,7 @@
 
 	var/damage = armor_damage_reduction(GLOB.marine_bone_break, brute*3, armor, 0, 0, 0, max_damage ? (100*(max_damage-brute_dam) / max_damage) : 100)
 
-	if(brute_dam > min_broken_damage * CONFIG_GET(number/organ_health_multiplier) && prob(damage*2))
+	if(brute_dam > min_broken_damage * ORGAN_HEALTH_MULTIPLIER && prob(damage*2))
 		fracture()
 /**
  * Describes how limbs (body parts) of human mobs get damage applied.
@@ -287,7 +287,7 @@
 	if(!is_ff && take_damage_organ_damage(brute, sharp))
 		brute /= 2
 
-	if(CONFIG_GET(flag/bones_can_break) && !(status & (LIMB_SYNTHSKIN)))
+	if(!(status & (LIMB_SYNTHSKIN)))
 		take_damage_bone_break(brute)
 
 	if(status & LIMB_BROKEN && prob(40) && brute > 10)
@@ -298,7 +298,7 @@
 
 	var/can_cut = (prob(brute*2) || sharp) && !(status & (LIMB_ROBOT|LIMB_SYNTHSKIN))
 	// If the limbs can break, make sure we don't exceed the maximum damage a limb can take before breaking
-	if((brute_dam + burn_dam + brute + burn) < max_damage || !CONFIG_GET(flag/limbs_can_break))
+	if((brute_dam + burn_dam + brute + burn) < max_damage)
 		if(brute)
 			if(can_cut)
 				createwound(CUT, brute, is_ff = is_ff)
@@ -309,7 +309,7 @@
 	else
 		//If we can't inflict the full amount of damage, spread the damage in other ways
 		//How much damage can we actually cause?
-		var/can_inflict = max_damage * CONFIG_GET(number/organ_health_multiplier) - (brute_dam + burn_dam)
+		var/can_inflict = max_damage * ORGAN_HEALTH_MULTIPLIER - (brute_dam + burn_dam)
 		var/remain_brute = brute
 		var/remain_burn = burn
 		if(can_inflict)
@@ -360,7 +360,7 @@
 	var/no_perma_damage = owner.status_flags & NO_PERMANENT_DAMAGE
 	var/no_bone_break = owner.chem_effect_flags & CHEM_EFFECT_RESIST_FRACTURE
 	if(previous_brute > 0 && !is_ff && body_part != BODY_FLAG_CHEST && body_part != BODY_FLAG_GROIN && !no_limb_loss && !no_perma_damage && !no_bone_break)
-		if(CONFIG_GET(flag/limbs_can_break) && brute_dam >= max_damage * CONFIG_GET(number/organ_health_multiplier) && (status & LIMB_BROKEN))
+		if(brute_dam >= max_damage * ORGAN_HEALTH_MULTIPLIER && (status & LIMB_BROKEN))
 			var/cut_prob = brute/max_damage * 5
 			if(prob(cut_prob))
 				limb_delimb(damage_source)
@@ -643,7 +643,7 @@ This function completely restores a damaged organ to perfect condition.
 			//we only update wounds once in [wound_update_accuracy] ticks so have to emulate realtime
 			heal_amt = heal_amt * wound_update_accuracy
 			//configurable regen speed woo, no-regen hardcore or instaheal hugbox, choose your destiny
-			heal_amt = heal_amt * CONFIG_GET(number/organ_regeneration_multiplier)
+			heal_amt = heal_amt * ORGAN_REGENERATION_MULTIPLIER
 			// amount of healing is spread over all the wounds
 			heal_amt = heal_amt / (length(wounds) + 1)
 			// making it look prettier on scanners

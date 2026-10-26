@@ -1,6 +1,6 @@
 /proc/emoji_parse(text) //turns :ai: into an emoji in text.
 	. = text
-	if(!CONFIG_GET(flag/emojis))
+	if(!GLOB.configuration.misc.emojis)
 		return
 	var/static/list/emojis = icon_states(icon(EMOJI_SET))
 	var/parsed = ""
@@ -32,7 +32,7 @@
 
 /proc/emoji_sanitize(text) //cuts any text that would not be parsed as an emoji
 	. = text
-	if(!CONFIG_GET(flag/emojis))
+	if(!GLOB.configuration.misc.emojis)
 		return
 	var/static/list/emojis = icon_states(icon(EMOJI_SET))
 	var/final = "" //only tags are added to this

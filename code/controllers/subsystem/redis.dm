@@ -24,8 +24,8 @@ SUBSYSTEM_DEF(redis)
 	return ..()
 
 /datum/controller/subsystem/redis/Initialize()
-	instance_name = CONFIG_GET(string/instance_name)
-	redis_logging = CONFIG_GET(flag/redis_logging)
+	instance_name = GLOB.configuration.redis.instance_name
+	redis_logging = GLOB.configuration.redis.redis_logging
 
 	if(connect() == CONFIG_DISABLED)
 		can_fire = FALSE
@@ -73,10 +73,10 @@ SUBSYSTEM_DEF(redis)
 	disconnect(SHUTDOWN)
 
 /datum/controller/subsystem/redis/proc/connect()
-	if(!CONFIG_GET(flag/redis_enabled))
+	if(!GLOB.configuration.redis.redis_enabled)
 		return CONFIG_DISABLED
 
-	var/connection_attempt = rustg_redis_connect(CONFIG_GET(string/redis_connection))
+	var/connection_attempt = rustg_redis_connect(GLOB.configuration.redis.redis_connection)
 
 	if(connection_attempt)
 		message_admins("Failed to connect to redis: [connection_attempt]")

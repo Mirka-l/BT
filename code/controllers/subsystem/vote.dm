@@ -36,7 +36,7 @@ SUBSYSTEM_DEF(vote)
 
 /datum/controller/subsystem/vote/fire()
 	if(mode)
-		time_remaining = floor((started_time + CONFIG_GET(number/vote_period) - world.time)/10)
+		time_remaining = floor((started_time + GLOB.configuration.vote.vote_period - world.time)/10)
 
 		if(time_remaining < 0)
 			result()
@@ -87,7 +87,7 @@ SUBSYSTEM_DEF(vote)
 
 		if(current_votes > greatest_votes)
 			greatest_votes = current_votes
-	if(!CONFIG_GET(flag/default_no_vote) && length(choices))
+	if(!GLOB.configuration.vote.default_no_vote && length(choices))
 		var/list/non_voters = GLOB.directory.Copy()
 		non_voters -= voted
 		for (var/non_voter_ckey in non_voters)
@@ -157,25 +157,10 @@ SUBSYSTEM_DEF(vote)
 	var/restart = FALSE
 	if(.)
 		switch(mode)
-			if("gamemode")
-				SSticker.save_mode(.)
-				GLOB.master_mode = .
-				to_chat(world, SPAN_BOLDNOTICE("Notice: The Gamemode for next round has been set to [.]"))
 			if("restart")
 				if(. == "Restart Round")
 					restart = TRUE
-			if("groundmap")
-				var/datum/map_config/VM = config.maplist[GROUND_MAP][.]
-				SSmapping.changemap(VM, GROUND_MAP)
-				for(var/datum/entity/map_vote/in_vote in votes)
-					var/map = in_vote.map_name
-					if(!isnull(choices[map]))
-						var/total_votes = choices[map] + adjustments[map] + carryover[map]
-						in_vote.total_votes = (. == map) ? 0 : total_votes
-						in_vote.save()
-			if("shipmap")
-				var/datum/map_config/VM = config.maplist[SHIP_MAP][.]
-				SSmapping.changemap(VM, SHIP_MAP)
+
 	if(restart)
 		var/active_admins = 0
 		for(var/client/C in GLOB.admins)
@@ -201,7 +186,7 @@ SUBSYSTEM_DEF(vote)
 
 /datum/controller/subsystem/vote/proc/submit_vote(vote)
 	if(mode)
-		if(CONFIG_GET(flag/no_dead_vote) && usr.stat == DEAD && !check_rights(R_ADMIN))
+		if(GLOB.configuration.vote.no_dead_vote && usr.stat == DEAD && !check_rights(R_ADMIN))
 			return FALSE
 		if(!(usr.ckey in voted))
 			if(vote in choices)
@@ -255,7 +240,7 @@ SUBSYSTEM_DEF(vote)
 					return FALSE
 
 		if(started_time)
-			var/next_allowed_time = (started_time + CONFIG_GET(number/vote_delay))
+			var/next_allowed_time = (started_time + GLOB.configuration.vote.vote_delay)
 			if(mode)
 				to_chat(usr, SPAN_WARNING("There is already a vote in progress! Please wait for it to finish."))
 				return FALSE
@@ -269,26 +254,14 @@ SUBSYSTEM_DEF(vote)
 			if("restart")
 				question = "Restart vote"
 				choices.Add("Restart Round", "Continue Playing")
-			if("gamemode")
-				question = "Gamemode vote"
-				randomize_entries = TRUE
-				for(var/mode_type in config.gamemode_cache)
-					var/datum/game_mode/cur_mode = mode_type
-					if(initial(cur_mode.config_tag))
-						cur_mode = new mode_type
-						var/vote_cycle_met = !initial(cur_mode.vote_cycle) || (text2num(SSperf_logging?.round?.id) % initial(cur_mode.vote_cycle) == 0)
-						var/min_players_met = length(GLOB.clients) >= cur_mode.required_players
-						if(initial(cur_mode.votable) && vote_cycle_met && min_players_met)
-							choices += initial(cur_mode.config_tag)
-						qdel(cur_mode)
 			if("groundmap")
 				question = "Ground map vote"
 				vote_sound = 'sound/voice/start_your_voting.ogg'
 				vote_sound_vol = 15
 				randomize_entries = TRUE
 				var/list/maps = list()
-				for(var/i in config.maplist[GROUND_MAP])
-					var/datum/map_config/VM = config.maplist[GROUND_MAP][i]
+				for(var/i in SSmapping.maplist[GROUND_MAP])
+					var/datum/map_config/VM = SSmapping.maplist[GROUND_MAP][i]
 					if(VM.map_file == SSmapping.configs[GROUND_MAP].map_file)
 						continue
 					if(!VM.voteweight)
@@ -309,15 +282,12 @@ SUBSYSTEM_DEF(vote)
 				if(!length(choices))
 					return FALSE
 				SSentity_manager.filter_then(/datum/entity/map_vote, null, CALLBACK(src, PROC_REF(carry_over_callback)))
-
-				if(CONFIG_GET(flag/allow_vote_adjustment_callback))
-					vote_adjustment_callback = CALLBACK(src, PROC_REF(map_vote_adjustment))
 			if("shipmap")
 				question = "Ship map vote"
 				randomize_entries = TRUE
 				var/list/maps = list()
-				for(var/i in config.maplist[SHIP_MAP])
-					var/datum/map_config/VM = config.maplist[SHIP_MAP][i]
+				for(var/i in SSmapping.maplist[SHIP_MAP])
+					var/datum/map_config/VM = SSmapping.maplist[SHIP_MAP][i]
 					if(!VM.voteweight)
 						continue
 					if(VM.config_max_users || VM.config_min_users)
@@ -360,7 +330,7 @@ SUBSYSTEM_DEF(vote)
 		if(mode == "custom")
 			text += "<br>[question]"
 		log_vote(text)
-		var/vp = CONFIG_GET(number/vote_period)
+		var/vp = GLOB.configuration.vote.vote_period
 		SEND_SOUND(world, sound(vote_sound, channel = SOUND_CHANNEL_VOX, volume = vote_sound_vol))
 		to_chat(world, SPAN_CENTERBOLD("<br><br><font color='purple'><b>[text]</b><br>Type <b>vote</b> or click <a href='byond://?src=[REF(src)]'>here</a> to place your votes.<br>You have [DisplayTimeText(vp)] to vote.</font><br><br>"))
 		time_remaining = floor(vp/10)
@@ -380,7 +350,7 @@ SUBSYSTEM_DEF(vote)
 
 /datum/controller/subsystem/vote/proc/map_vote_adjustment(current_votes, carry_over, total_votes)
 	// Get 10% of the total map votes and remove them from the pool
-	var/total_vote_adjustment = floor(total_votes * CONFIG_GET(number/vote_adjustment_callback))
+	var/total_vote_adjustment = floor(total_votes * GLOB.configuration.vote.vote_adjustment_callback)
 
 	// Do not remove more votes than were made for the map
 	return -(min(current_votes, total_vote_adjustment))
@@ -450,8 +420,7 @@ SUBSYSTEM_DEF(vote)
 /datum/controller/subsystem/vote/proc/get_config_restrictions()
 	. = list()
 
-	.["can_restart_vote"] = CONFIG_GET(flag/allow_vote_restart)
-	.["can_gamemode_vote"] = CONFIG_GET(flag/allow_vote_mode)
+	.["can_restart_vote"] = GLOB.configuration.vote.allow_vote_restart
 
 // possible_vote_types JSON TABLE FOR THE CLIENT MENU
 // PARAMETERS
@@ -466,12 +435,6 @@ GLOBAL_LIST_INIT(possible_vote_types, list(
 		"color" = "red",
 		"icon" = "power-off",
 		"variable_required" = "can_restart_vote",
-	),
-	"gamemode" = list(
-		"name" = "Gamemode Vote",
-		"color" = "purple",
-		"icon" = "dice-d6",
-		"variable_required" = "can_gamemode_vote",
 	),
 	"shipmap" = list(
 		"name" = "Shipmap Vote",
@@ -514,9 +477,10 @@ GLOBAL_LIST_INIT(possible_vote_types, list(
 				reset()
 				to_chat(world, "<b><font color='purple'>The vote has been cancelled.</font></b>")
 			if("toggle_restart")
-				CONFIG_SET(flag/allow_vote_restart, !CONFIG_GET(flag/allow_vote_restart))
-			if("toggle_gamemode")
-				CONFIG_SET(flag/allow_vote_mode, !CONFIG_GET(flag/allow_vote_mode))
+				if(GLOB.configuration.vote.allow_vote_restart)
+					GLOB.configuration.vote.allow_vote_restart = FALSE
+				else
+					GLOB.configuration.vote.allow_vote_restart = TRUE
 
 	switch(action)
 		if("initiate_vote")

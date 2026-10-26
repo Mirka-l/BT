@@ -4,8 +4,8 @@
 
 	var/total_playtime = get_total_xeno_playtime(skip_cache = TRUE) + get_total_human_playtime(skip_cache = TRUE)
 
-	if(total_playtime < CONFIG_GET(number/certification_minutes))
-		to_chat(src, SPAN_ALERTWARNING("You don't have enough minutes - [CONFIG_GET(number/certification_minutes) - total_playtime] remaining."))
+	if(total_playtime < GLOB.configuration.discord.certification_minutes)
+		to_chat(src, SPAN_ALERTWARNING("You don't have enough minutes - [GLOB.configuration.discord.certification_minutes - total_playtime] remaining."))
 		return
 
 	if(!player_data)
@@ -23,7 +23,7 @@
 
 	if(ident)
 		to_chat(src, SPAN_ALERTWARNING("Existing verification within expiry. Opening pop-up."))
-		show_browser(src, "Your one time password is [ident.identifier]. Please use [CONFIG_GET(string/bot_prefix)][CONFIG_GET(string/bot_command)] [ident.identifier] to certify.", "One Time Password", "one-time-pass")
+		show_browser(src, "Your one time password is [ident.identifier]. Please use [GLOB.configuration.discord.bot_prefix][GLOB.configuration.discord.bot_command] [ident.identifier] to certify.", "One Time Password", "one-time-pass")
 		return
 
 	var/datum/entity/discord_identifier/new_identifier = DB_ENTITY(/datum/entity/discord_identifier)
@@ -40,4 +40,4 @@
 	new_identifier.playerid = player_data.id
 	new_identifier.save()
 
-	show_browser(src, "Your one time password is [token]. Please use [CONFIG_GET(string/bot_prefix)][CONFIG_GET(string/bot_command)] [token] to certify.", "One Time Password", "one-time-pass")
+	show_browser(src, "Your one time password is [token]. Please use [GLOB.configuration.discord.bot_prefix][GLOB.configuration.discord.bot_command] [token] to certify.", "One Time Password", "one-time-pass")

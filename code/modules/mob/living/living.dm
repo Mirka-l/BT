@@ -144,7 +144,7 @@
 	set category = "OOC"
 	set src in view()
 
-	if(CONFIG_GET(flag/allow_Metadata))
+	if(GLOB.configuration.misc.allow_metadata)
 		if(client)
 			to_chat(usr, "[src]'s Metainfo:<br>[client.prefs.metadata]")
 		else

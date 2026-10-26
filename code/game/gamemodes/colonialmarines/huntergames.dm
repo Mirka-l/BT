@@ -192,7 +192,7 @@
 			contestants += M
 			spawn_contestant(M)
 
-	CONFIG_SET(flag/remove_gun_restrictions, TRUE) //This will allow anyone to use cool guns.
+	GLOB.configuration.options.remove_gun_restrictions = TRUE //This will allow anyone to use cool guns.
 
 	spawn(10)
 		to_world("<B>The current game mode is - HUNTER GAMES!</B>")

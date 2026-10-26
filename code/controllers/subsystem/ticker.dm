@@ -60,11 +60,6 @@ SUBSYSTEM_DEF(ticker)
 
 /datum/controller/subsystem/ticker/Initialize(timeofday)
 	load_mode()
-
-	var/all_music = CONFIG_GET(keyed_list/lobby_music)
-	var/key = SAFEPICK(all_music)
-	if(key)
-		login_music = file(all_music[key])
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/ticker/fire(resumed = FALSE)
@@ -73,9 +68,9 @@ SUBSYSTEM_DEF(ticker)
 			if(Master.initializations_finished_with_no_players_logged_in && !length(GLOB.clients))
 				return
 			if(isnull(start_at))
-				start_at = time_left || world.time + (CONFIG_GET(number/lobby_countdown) * 10)
-			to_chat_spaced(world, type = MESSAGE_TYPE_SYSTEM, margin_top = 2, margin_bottom = 0, html = SPAN_ROUNDHEADER("Welcome to the pre-game lobby of [CONFIG_GET(string/servername)]!"))
-			to_chat_spaced(world, type = MESSAGE_TYPE_SYSTEM, margin_top = 0, html = SPAN_ROUNDBODY("Please, setup your character and select ready. Game will start in [floor(time_left / 10) || CONFIG_GET(number/lobby_countdown)] seconds."))
+				start_at = time_left || world.time + GLOB.configuration.general.lobby_countdown * 10
+			to_chat_spaced(world, type = MESSAGE_TYPE_SYSTEM, margin_top = 2, margin_bottom = 0, html = SPAN_ROUNDHEADER("Welcome to the pre-game lobby of [GLOB.configuration.general.server_name]!"))
+			to_chat_spaced(world, type = MESSAGE_TYPE_SYSTEM, margin_top = 0, html = SPAN_ROUNDBODY("Please, setup your character and select ready. Game will start in [floor(time_left / 10) || GLOB.configuration.general.lobby_countdown] seconds."))
 			SEND_GLOBAL_SIGNAL(COMSIG_GLOB_MODE_PREGAME_LOBBY)
 			current_state = GAME_STATE_PREGAME
 			fire()
@@ -156,7 +151,7 @@ SUBSYSTEM_DEF(ticker)
 	if(setup_failed)
 		current_state = GAME_STATE_STARTUP
 		time_left = null
-		start_at = world.time + (CONFIG_GET(number/lobby_countdown) * 10)
+		start_at = world.time + (GLOB.configuration.general.lobby_countdown * 10)
 		Master.SetRunLevel(RUNLEVEL_LOBBY)
 		return FALSE
 	return TRUE
@@ -165,13 +160,13 @@ SUBSYSTEM_DEF(ticker)
 	to_chat(world, SPAN_BOLDNOTICE("Enjoy the game!"))
 	var/init_start = world.timeofday
 	//Create and announce mode
-	mode = config.pick_mode(GLOB.master_mode)
+	mode = GLOB.master_mode
 
 	CHECK_TICK
 	if(!mode.can_start(bypass_checks))
 		to_chat(world, "Requirements to start [GLOB.master_mode] not met. Reverting to pre-game lobby.")
 		// Make only one more attempt
-		if(world.time - 2 * wait > CONFIG_GET(number/lobby_countdown) SECONDS)
+		if(world.time - 2 * wait > GLOB.configuration.general.lobby_countdown SECONDS)
 			flash_clients()
 			delay_start = TRUE
 			to_chat(world, SPAN_CENTERBOLD("The game start has been delayed."))
@@ -198,8 +193,7 @@ SUBSYSTEM_DEF(ticker)
 	if(GLOB.perf_flags & PERF_TOGGLE_LAZYSS)
 		apply_lazy_timings()
 
-
-	if(CONFIG_GET(flag/autooocmute))
+	if(GLOB.configuration.options.auto_ooc_mute)
 		GLOB.ooc_allowed = FALSE
 
 	round_start_time = world.time
@@ -253,9 +247,6 @@ SUBSYSTEM_DEF(ticker)
 	mode.post_setup()
 
 	begin_game_recording()
-
-	// Switch back to default automatically
-	save_mode(CONFIG_GET(string/gamemode_default))
 
 	if(GLOB.round_statistics)
 		to_chat_spaced(world, html = FONT_SIZE_BIG(SPAN_ROLE_BODY("<B>Welcome to [GLOB.round_statistics.round_name]</B>")))

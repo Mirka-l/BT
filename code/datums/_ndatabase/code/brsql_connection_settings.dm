@@ -31,13 +31,13 @@
 /datum/db/connection_settings/brsql/New(list/config)
 	..()
 
-	ipaddress = CONFIG_GET(string/db_address)
-	port = CONFIG_GET(number/db_port)
-	username = CONFIG_GET(string/db_username)
-	password = CONFIG_GET(string/db_password)
-	db = CONFIG_GET(string/db_database)
-	min_threads = CONFIG_GET(number/db_min_threads)
-	max_threads = CONFIG_GET(number/db_max_threads)
+	ipaddress = GLOB.configuration.database.db_address
+	port = GLOB.configuration.database.db_port
+	username = GLOB.configuration.database.db_username
+	password = GLOB.configuration.database.db_password
+	db = GLOB.configuration.database.db_database
+	min_threads = GLOB.configuration.database.db_min_threads
+	max_threads = GLOB.configuration.database.db_max_threads
 
 /datum/db/connection_settings/brsql/create_connection()
 	var/datum/db/connection/brsql_connection/connection = new()

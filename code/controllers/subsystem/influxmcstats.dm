@@ -9,7 +9,7 @@ SUBSYSTEM_DEF(influxmcstats)
 	var/list/subsystem_name_cache = list()
 
 /datum/controller/subsystem/influxmcstats/Initialize()
-	var/period = text2num(CONFIG_GET(number/influxdb_mcstats_period))
+	var/period = text2num(GLOB.configuration.influx.influxdb_mcstats_period)
 	if(isnum(period))
 		wait = max(period * (1 SECONDS), 10 SECONDS)
 	return SS_INIT_SUCCESS

@@ -34,6 +34,7 @@ GLOBAL_LIST_EMPTY(admin_ranks) //list of all ranks with associated rights
 				if("permissions","rights") rights |= R_PERMISSIONS
 				if("possess") rights |= R_POSSESS
 				if("stealth") rights |= R_STEALTH
+				if("callproc") rights |= R_CALLPROC
 				if("color") rights |= R_COLOR
 				if("varedit") rights |= R_VAREDIT
 				if("event") rights |= R_EVENT

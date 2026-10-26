@@ -46,7 +46,7 @@
 	/// Whether or not having enough playtime will allow you to primeroll
 	var/prime_priority = FALSE
 
-/datum/job/New()
+/datum/job/New(/datum/server_configuration/config)
 	. = ..()
 
 	RegisterSignal(SSdcs, COMSIG_GLOB_CONFIG_LOADED, PROC_REF(on_config_load))
@@ -55,8 +55,7 @@
 	if(!disp_title)
 		disp_title = title
 
-	if(global.config.is_loaded)
-		on_config_load()
+	on_config_load()
 
 /datum/job/proc/on_config_load()
 	if(entry_message_body)
@@ -64,13 +63,11 @@
 
 /datum/job/proc/replace_placeholders(replacement_string)
 	replacement_string = replacetextEx(replacement_string, WIKI_PLACEHOLDER, generate_wiki_link())
-	replacement_string = replacetextEx(replacement_string, LAW_PLACEHOLDER, "[CONFIG_GET(string/wikiarticleurl)]/[URL_WIKI_LAW]")
+	replacement_string = replacetextEx(replacement_string, LAW_PLACEHOLDER, "[GLOB.configuration.url.wiki_article_url]/[URL_WIKI_LAW]")
 	return replacement_string
 
 /datum/job/proc/generate_wiki_link()
-	if(!CONFIG_GET(string/wikiarticleurl))
-		return ""
-	return "[CONFIG_GET(string/wikiarticleurl)]/[replacetext(title, " ", "_")]"
+	return "[GLOB.configuration.url.wiki_article_url]/[replacetext(title, " ", "_")]"
 
 /datum/job/proc/get_whitelist_status(client/player)
 	return WHITELIST_NORMAL
@@ -117,7 +114,7 @@
 		return time_required - get_job_playtime(C, roles)
 
 /datum/job/proc/can_play_role(client/client)
-	if(!CONFIG_GET(flag/use_timelocks))
+	if(!GLOB.configuration.misc.use_timelocks)
 		return TRUE
 
 	if(client.admin_holder && (client.admin_holder.rights & (R_NOLOCK | R_ADMIN)))

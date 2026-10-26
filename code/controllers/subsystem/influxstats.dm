@@ -11,7 +11,7 @@ SUBSYSTEM_DEF(influxstats)
 	var/step = 1 //! Current task in progress, for pausing/resuming
 
 /datum/controller/subsystem/influxstats/Initialize()
-	var/period = text2num(CONFIG_GET(number/influxdb_stats_period))
+	var/period = text2num(GLOB.configuration.influx.influxdb_stats_period)
 	if(isnum(period))
 		wait = max(period * (1 SECONDS), 10 SECONDS)
 	return SS_INIT_SUCCESS

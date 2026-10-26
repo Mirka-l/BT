@@ -25,14 +25,14 @@ GLOBAL_LIST_INIT(reboot_sfx, file2list("config/reboot_sfx.txt"))
 
 	GLOB.config_error_log = GLOB.world_attack_log = GLOB.world_href_log = GLOB.world_attack_log = "data/logs/config_error.[GUID()].log"
 
-	config.Load(params[OVERRIDE_CONFIG_DIRECTORY_PARAMETER])
+	GLOB.configuration.load_configuration()
 
 	SSdatabase.start_up()
 
 	SSentity_manager.start_up()
 	SSentity_manager.setup_round_id()
 
-	var/latest_changelog = file("[global.config.directory]/../html/changelogs/archive/" + time2text(world.timeofday, "YYYY-MM") + ".yml")
+	var/latest_changelog = file("html/changelogs/archive/" + time2text(world.timeofday, "YYYY-MM") + ".yml")
 	GLOB.changelog_hash = fexists(latest_changelog) ? md5(latest_changelog) : 0 //for telling if the changelog has changed recently
 
 	initialize_tgs()
@@ -68,7 +68,7 @@ GLOBAL_LIST_INIT(reboot_sfx, file2list("config/reboot_sfx.txt"))
 
 	initiate_minimap_icons()
 
-	change_tick_lag(CONFIG_GET(number/ticklag))
+	change_tick_lag(GLOB.configuration.mc.ticklag)
 
 	// As of byond 515.1637 time2text now treats 0 like it does negative numbers so the hour is wrong
 	// We could instead use world.timezone but IMO better to not assume lummox will keep time2text in parity with it
@@ -160,12 +160,12 @@ GLOBAL_LIST_INIT(reboot_sfx, file2list("config/reboot_sfx.txt"))
 
 	var/list/response = list()
 
-	if(length(T) > CONFIG_GET(number/topic_max_size))
+	if(length(T) > GLOB.configuration.topic.topic_max_size)
 		response["statuscode"] = 413
 		response["response"] = "Payload too large"
 		return json_encode(response)
 
-	var/logging = CONFIG_GET(flag/log_world_topic)
+	var/logging = GLOB.configuration.topic.log_world_topic
 	var/topic_decoded = rustg_url_decode(T)
 	if(!rustg_json_is_valid(topic_decoded))
 		if(logging)
@@ -224,7 +224,7 @@ GLOBAL_LIST_INIT(reboot_sfx, file2list("config/reboot_sfx.txt"))
 /world/Reboot(reason)
 	Master.Shutdown()
 	send_reboot_sound()
-	var/server = CONFIG_GET(string/server)
+	var/server = GLOB.configuration.url.server_ip
 	for(var/thing in GLOB.clients)
 		if(!thing)
 			continue
@@ -248,13 +248,13 @@ GLOBAL_LIST_INIT(reboot_sfx, file2list("config/reboot_sfx.txt"))
 		shutdown()
 
 /world/proc/send_tgs_restart()
-	if(!CONFIG_GET(string/new_round_alert_channel))
+	if(!GLOB.configuration.url.new_round_alert_channel)
 		return
 
 	if(!GLOB.round_statistics)
 		return
 
-	send2chat(new /datum/tgs_message_content("[GLOB.round_statistics.round_name][GLOB.round_id ? " (Round [GLOB.round_id])" : ""] completed!"), CONFIG_GET(string/new_round_alert_channel))
+	send2chat(new /datum/tgs_message_content("[GLOB.round_statistics.round_name][GLOB.round_id ? " (Round [GLOB.round_id])" : ""] completed!"), GLOB.configuration.url.new_round_alert_channel)
 
 /world/proc/send_reboot_sound()
 	var/reboot_sound = SAFEPICK(GLOB.reboot_sfx)
@@ -276,9 +276,9 @@ GLOBAL_LIST_INIT(reboot_sfx, file2list("config/reboot_sfx.txt"))
 	//Note: Hub content is limited to 254 characters, including limited HTML/CSS.
 	var/s = ""
 
-	if(CONFIG_GET(string/servername))
-		s += "<a href=\"[CONFIG_GET(string/discordurl)]\"><b>[CONFIG_GET(string/servername)]</b></a>"
-		s += "<br>Hosted by: <b>[CONFIG_GET(string/hostedby)]</b>"
+	if(GLOB.configuration.general.server_name)
+		s += "<a href=\"[GLOB.configuration.discord.discord_url]\"><b>[GLOB.configuration.general.server_name]</b></a>"
+		s += "<br>Hosted by: <b>[GLOB.configuration.general.hostedby]</b>"
 		s += "<br>Round time: <b>[duration2text()]</b>"
 		s += "<br>An RP server focused on a tight knit platoon fighting xenos!"
 		s += "<br>Shoot the shit *and* shoot shit."
@@ -375,7 +375,6 @@ GLOBAL_LIST_INIT(reboot_sfx, file2list("config/reboot_sfx.txt"))
 
 	//trigger things to run the whole process
 	SSticker.request_start()
-	CONFIG_SET(number/round_end_countdown, 0)
 	var/datum/callback/cb
 #ifdef UNIT_TESTS
 	cb = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(RunUnitTests))

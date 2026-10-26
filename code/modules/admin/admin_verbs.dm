@@ -381,8 +381,8 @@ GLOBAL_LIST_INIT(roundstart_mod_verbs, list(
 		add_verb(src, GLOB.admin_verbs_server)
 	if(CLIENT_HAS_RIGHTS(src, R_DEBUG))
 		add_verb(src, GLOB.admin_verbs_debug)
-		if(!CONFIG_GET(flag/debugparanoid) || CLIENT_HAS_RIGHTS(src, R_ADMIN))
-			add_verb(src, GLOB.admin_verbs_debug_advanced)  // Right now it's just callproc but we can easily add others later on.
+	if(CLIENT_HAS_RIGHTS(src, R_CALLPROC))
+		add_verb(src, GLOB.admin_verbs_debug_advanced)  // Right now it's just callproc but we can easily add others later on.
 	if(CLIENT_HAS_RIGHTS(src, R_POSSESS))
 		add_verb(src, GLOB.admin_verbs_possess)
 	if(CLIENT_HAS_RIGHTS(src, R_PERMISSIONS))
@@ -528,13 +528,12 @@ GLOBAL_LIST_INIT(roundstart_mod_verbs, list(
 	set name = "Toggle href Logging"
 	set category = "Server"
 	if(!admin_holder) return
-	if(config)
-		if(CONFIG_GET(flag/log_hrefs))
-			CONFIG_SET(flag/log_hrefs, FALSE)
-			to_chat(src, "<b>Stopped logging hrefs</b>")
-		else
-			CONFIG_SET(flag/log_hrefs, TRUE)
-			to_chat(src, "<b>Started logging hrefs</b>")
+	if(GLOB.configuration.logging.log_hrefs)
+		GLOB.configuration.logging.log_hrefs = FALSE
+		to_chat(src, "<b>Stopped logging hrefs</b>")
+	else
+		GLOB.configuration.logging.log_hrefs = TRUE
+		to_chat(src, "<b>Started logging hrefs</b>")
 
 
 /client/proc/editappear(mob/living/carbon/human/M as mob in GLOB.human_mob_list)

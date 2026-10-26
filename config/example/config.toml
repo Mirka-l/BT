@@ -1,0 +1,197 @@
+# SECTION LIST (Ctrl+F to jump to these)
+# - database_configuration
+# - discord_configuration
+# - event_configuration
+# - general_configuration
+# - influx_configuration
+# - logging_configuration
+# - mc_configuration
+# - misc_configuration
+# - options_configuration
+# - redis_configuration
+# - topic_configuration
+# - url_configuration
+# - vote_configuration
+
+################################################################
+
+[database_configuration]
+db_debug_mode = false
+db_address = "127.0.0.1"
+db_port = 3306
+db_username = "user name"
+db_password = "password"
+db_database = "db name"
+db_min_threads = 1
+db_max_threads = 10
+db_filename = "data/local.db"
+db_provider = "native"
+
+[discord_configuration]
+discord_url
+adminhelp_ahelp_link
+urgent_ahelp_message
+regular_adminhelp_webhook_url
+urgent_adminhelp_webhook_url
+urgent_ahelp_cooldown = 1
+urgent_ahelp_user_prompt
+ahelp_message
+adminhelp_webhook_name
+adminhelp_webhook_pfp
+popup_admin_pm = true
+certification_minutes = 1
+bot_prefix
+bot_command
+
+[event_configuration]
+events_disallowed = true
+
+[general_configuration]
+server_name = "Banda Troopers"
+server_tag_line = "The perfect mix of RP & action"
+server_features = "Medium RP"
+lobby_time = 240
+restart_timeout = 75
+lobby_countdown
+hostedby
+
+[influx_configuration]
+influxdb_send_period
+influxdb_mcstats_period
+influxdb_stats_period
+influxdb_host
+influxdb_token
+influxdb_bucket
+influxdb_org
+
+[logging_configuration]
+log_debug = true
+log_asset = true
+log_ooc = true
+log_looc = true
+log_access = true
+log_say = true
+log_telecomms = true
+log_hivemind = true
+log_runtime = true
+log_prayer = true
+log_game = true
+log_overwatch = true
+log_interact = true
+log_idmod = true
+log_vote = true
+log_whisper = true
+log_attack = true
+log_emote = true
+log_manifest = true
+log_admin = true
+log_adminchat = true
+log_adminwarn = true
+log_hrefs = true
+
+[mc_configuration]
+disable_high_pop_mc_mode_amount = 50
+high_pop_mc_mode_amount = 80
+high_pop_mc_tick_rate = 15
+base_mc_tick_rate = 20
+ticklag = 1
+hard_deletes_overrun_threshold = 0.5
+hard_deletes_overrun_limit = 0
+fps = 20
+auto_profile = false
+
+[misc_configuration]
+kick_inactive = false
+log_timers_on_bucket_reset = false
+duplicate_notes_to_file = true
+use_timelocks = false
+ghost_interaction = false
+ooc_country_flags = true
+debug_admin_hrefs = false
+admin_legacy_system = false
+automute_on = false
+stui_length = 300
+
+client_error_version = 1
+client_error_build = 1
+client_warn_version = 1
+client_warn_build = 1
+client_warn_popup = false
+
+no_localhost_rank = false
+playersave_path = "data/player_saves"
+allow_metadata = true
+humans_need_surnames = false
+emojis = true
+
+[options_configuration]
+explosive_antigrief = 1
+sleep_offline = true
+asset_transport
+asset_cdn_webroot
+defaultmaps = { ground_map = "maps/lv624.json", ship_map = "maps/golden_arrow.json" }
+auto_ooc_mute
+remove_gun_restrictions = false
+whiskey_required_players = 1
+xeno_number_divider = 1
+surv_number_divider = 1
+respawn = false
+
+guest_jobban = false
+guest_ban = false
+limit_players = 1
+
+revival_brain_life = 1
+notify_new_player_age = 1
+
+[redis_configuration]
+instance_name
+redis_logging
+redis_enabled
+redis_connection
+
+[topic_configuration]
+topic_tokens
+topic_max_size = 1
+log_world_topic = true
+minute_topic_limit = 1
+second_topic_limit = 1
+
+[url_configuration]
+new_round_alert_role_id
+new_round_alert_channel
+
+wiki_url
+wiki_article_url
+wiki_url_home_page
+
+github_url
+github_app_api
+org
+repo_name
+important_log_channel
+
+invoke_youtube_dl
+cobalt_base_api
+cobalt_api_key
+
+round_results_webhook_url
+server_ip
+
+player_report_url
+ban_appeals_url
+
+asset_cdn_url
+external_rsc_urls
+webmap_host
+
+connection_relay_ping
+connection_relay_con
+
+[vote_configuration]
+vote_period = 600
+vote_delay = 6000
+default_no_vote = false
+no_dead_vote = false
+vote_adjustment_callback = false
+allow_vote_restart = true

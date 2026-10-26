@@ -223,10 +223,10 @@
 	if(alert(usr, "Are you sure you want to toggle CDN asset transport?", "Confirm", "Yes", "No") != "Yes")
 		return
 
-	var/current_transport = CONFIG_GET(string/asset_transport)
+	var/current_transport = GLOB.configuration.options.asset_transport
 	if(!current_transport || current_transport == "simple")
 		if(admin_disabled_cdn_transport)
-			CONFIG_SET(string/asset_transport, admin_disabled_cdn_transport)
+			GLOB.configuration.options.asset_transport = admin_disabled_cdn_transport
 			admin_disabled_cdn_transport = null
 			SSassets.OnConfigLoad()
 			message_admins("[key_name_admin(usr)] re-enabled the CDN asset transport")
@@ -241,7 +241,7 @@
 		return
 
 	admin_disabled_cdn_transport = current_transport
-	CONFIG_SET(string/asset_transport, "simple")
+	GLOB.configuration.options.asset_transport = "simple"
 	SSassets.OnConfigLoad()
 	SSassets.transport.dont_mutate_filenames = TRUE
 	message_admins("[key_name_admin(usr)] disabled CDN asset transport")

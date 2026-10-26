@@ -209,7 +209,7 @@
 	set category = "Object"
 	set src in oview(1)
 
-	if(CONFIG_GET(flag/ghost_interaction))
+	if(GLOB.configuration.misc.ghost_interaction)
 		src.setDir(turn(src.dir, 90))
 		handle_rotation()
 		return

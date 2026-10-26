@@ -299,9 +299,12 @@
 #define HUMAN_FIRE_RESIST_AMOUNT -10
 #define HUNTER_FIRE_RESIST_AMOUNT -25
 
-// Organ damage chance
+// Organ chance
 
 /// The multiplier to damage when calculating organ damage probability
 #define DMG_ORGAN_DAM_PROB_MULT (2/9)
 /// The multiplier to existing brute damage when calculating organ damage probability
 #define BRUTE_ORGAN_DAM_PROB_MULT (0.05)
+
+#define ORGAN_HEALTH_MULTIPLIER 100 // сюда значение из конфига вынести
+#define ORGAN_REGENERATION_MULTIPLIER 75 // сюда значение из конфига вынести

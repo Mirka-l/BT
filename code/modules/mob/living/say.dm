@@ -1,3 +1,6 @@
+#define FILTER_REGEX_PATH "config/word_filter.txt"
+GLOBAL_REGEX(word_filter_regex)
+
 GLOBAL_LIST_INIT(department_radio_keys, list(
 	":i" = RADIO_CHANNEL_INTERCOM, ".i" = RADIO_CHANNEL_INTERCOM, "#i" = RADIO_CHANNEL_INTERCOM,
 	":h" = RADIO_CHANNEL_DEPARTMENT, ".h" = RADIO_CHANNEL_DEPARTMENT, "#h" = RADIO_CHANNEL_DEPARTMENT,
@@ -47,11 +50,26 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 /proc/prefix_to_channel(prefix)
 	return GLOB.department_radio_keys[lowertext(prefix)]
 
+/proc/LoadChatFilter()
+	var/list/word_filter = list()
+
+	if(!fexists(FILTER_REGEX_PATH))
+		return
+
+	for(var/line in file2list(FILTER_REGEX_PATH))
+		if(!line)
+			continue
+		if(findtextEx(line,"#",1,2))
+			continue
+		word_filter += REGEX_QUOTE(line)
+
+	GLOB.word_filter_regex = length(word_filter) ? regex("\\b([jointext(word_filter, "|")])\\b", "i") : null
+
 /proc/filter_message(client/user, message)
-	if(!config.word_filter_regex)
+	if(!GLOB.word_filter_regex)
 		return TRUE
 
-	if(config.word_filter_regex.Find(message))
+	if(GLOB.word_filter_regex.Find(message))
 		to_chat(user,
 			html = "\n<font color='red' size='4'><b>-- Word Filter Message --</b></font>",
 			)

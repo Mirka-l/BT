@@ -155,6 +155,17 @@
 #define YAUTJA_SLOWED_AMOUNT -1.25 // 0.75s slowdown
 #define YAUTJA_SUPERSLOWED_AMOUNT -3 // 1s slowdown
 
+// Delay
+#define HUMAN_MOVEMENT_DELAY 1 // сюда значение из конфига вынести
+#define ANIMAL_DELAY 1 // сюда значение из конфига вынести
+#define RUN_DELAY 1 // сюда значение из конфига вынести
+#define WALK_DELAY 1 // сюда значение из конфига вынести
+
+// Time
+#define EMBRYO_BURST_TIME 1 // сюда значение из конфига вынести
+#define EXTRA_LARVA_BURST_TIME 1 // сюда значение из конфига вынести
+
+
 //=================================================
 
 /*   MOVE DEFINES   */

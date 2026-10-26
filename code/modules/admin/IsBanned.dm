@@ -12,7 +12,7 @@
 		return //don't recheck connected clients.
 
 	//Guest Checking
-	if(!real_bans_only && CONFIG_GET(flag/guest_ban) && IsGuestKey(key))
+	if(!real_bans_only && GLOB.configuration.options.guest_ban && IsGuestKey(key))
 		log_access("Failed Login: [key] - Guests not allowed")
 		message_admins("Failed Login: [key] - Guests not allowed")
 		return list("reason"="guest", "desc"="\nReason: Guests not allowed. Please sign in with a byond account.")
@@ -22,8 +22,8 @@
 	if(GLOB.admin_datums[ckey] && (GLOB.admin_datums[ckey].rights & R_MOD))
 		return ..()
 
-	if(CONFIG_GET(number/limit_players) && CONFIG_GET(number/limit_players) < length(GLOB.clients))
-		return list("reason"="POP CAPPED", "desc"="\nReason: Server is pop capped at the moment at [CONFIG_GET(number/limit_players)] players. Attempt reconnection in 2-3 minutes.")
+	if(GLOB.configuration.options.limit_players && GLOB.configuration.options.limit_players < length(GLOB.clients))
+		return list("reason"="POP CAPPED", "desc"="\nReason: Server is pop capped at the moment at [GLOB.configuration.options.limit_players] players. Attempt reconnection in 2-3 minutes.")
 
 	var/datum/entity/player/P = get_player_from_key(ckey)
 
