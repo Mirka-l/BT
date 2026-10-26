@@ -17,15 +17,15 @@
 
 [database_configuration]
 db_debug_mode = false
-db_address
-db_port
-db_username
-db_password
-db_database
-db_min_threads
-db_max_threads
-db_filename
-db_provider
+db_address = "127.0.0.1"
+db_port = 3306
+db_username = "user name"
+db_password = "password"
+db_database = "db name"
+db_min_threads = 1
+db_max_threads = 10
+db_filename = "data/local.db"
+db_provider = "native"
 
 [discord_configuration]
 discord_url
@@ -110,7 +110,7 @@ ooc_country_flags = true
 debug_admin_hrefs = false
 admin_legacy_system = false
 automute_on = false
-STUI_length = 300
+stui_length = 300
 
 client_error_version = 1
 client_error_build = 1
@@ -119,13 +119,13 @@ client_warn_build = 1
 client_warn_popup = false
 
 no_localhost_rank = false
-playersave_path
+playersave_path = "data/player_saves"
 allow_metadata = true
 humans_need_surnames = false
 emojis = true
 
 [options_configuration]
-explosive_antigrief = ANTIGRIEF_DISABLED
+explosive_antigrief = 1
 sleep_offline = true
 asset_transport
 asset_cdn_webroot

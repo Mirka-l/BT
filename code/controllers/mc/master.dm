@@ -256,7 +256,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 	var/time = (REALTIMEOFDAY - start_timeofday) / 10
 
-
+	LoadChatFilter()
 
 	var/msg = "Initializations complete within [time] second[time == 1 ? "" : "s"]!"
 	to_chat(world, SPAN_BOLDANNOUNCE("[msg]"))

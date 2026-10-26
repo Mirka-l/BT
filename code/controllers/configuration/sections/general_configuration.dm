@@ -5,7 +5,7 @@
 	var/server_features = "Medium RP"
 	var/lobby_time = 240
 	var/restart_timeout = 75
-	var/lobby_countdown
+	var/lobby_countdown = 180
 	var/hostedby
 
 /datum/configuration_section/general_configuration/load_data(list/data)

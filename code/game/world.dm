@@ -32,7 +32,7 @@ GLOBAL_LIST_INIT(reboot_sfx, file2list("config/reboot_sfx.txt"))
 	SSentity_manager.start_up()
 	SSentity_manager.setup_round_id()
 
-	var/latest_changelog = file("changelog/latest_changelog/html/changelogs/archive/" + time2text(world.timeofday, "YYYY-MM") + ".yml")
+	var/latest_changelog = file("html/changelogs/archive/" + time2text(world.timeofday, "YYYY-MM") + ".yml")
 	GLOB.changelog_hash = fexists(latest_changelog) ? md5(latest_changelog) : 0 //for telling if the changelog has changed recently
 
 	initialize_tgs()

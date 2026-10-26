@@ -254,6 +254,52 @@ SUBSYSTEM_DEF(vote)
 			if("restart")
 				question = "Restart vote"
 				choices.Add("Restart Round", "Continue Playing")
+			if("groundmap")
+				question = "Ground map vote"
+				vote_sound = 'sound/voice/start_your_voting.ogg'
+				vote_sound_vol = 15
+				randomize_entries = TRUE
+				var/list/maps = list()
+				for(var/i in SSmapping.maplist[GROUND_MAP])
+					var/datum/map_config/VM = SSmapping.maplist[GROUND_MAP][i]
+					if(VM.map_file == SSmapping.configs[GROUND_MAP].map_file)
+						continue
+					if(!VM.voteweight)
+						continue
+					if(!(GLOB.master_mode in VM.gamemodes))
+						continue
+					if(text2num(SSperf_logging?.round?.id) % VM.vote_cycle != 0)
+						continue
+					if(VM.config_max_users || VM.config_min_users)
+						var/players = length(GLOB.clients)
+						if(VM.config_max_users && players > VM.config_max_users)
+							continue
+						if(VM.config_min_users && players < VM.config_min_users)
+							continue
+					maps += i
+
+				choices.Add(maps)
+				if(!length(choices))
+					return FALSE
+				SSentity_manager.filter_then(/datum/entity/map_vote, null, CALLBACK(src, PROC_REF(carry_over_callback)))
+			if("shipmap")
+				question = "Ship map vote"
+				randomize_entries = TRUE
+				var/list/maps = list()
+				for(var/i in SSmapping.maplist[SHIP_MAP])
+					var/datum/map_config/VM = SSmapping.maplist[SHIP_MAP][i]
+					if(!VM.voteweight)
+						continue
+					if(VM.config_max_users || VM.config_min_users)
+						var/players = length(GLOB.clients)
+						if(players > VM.config_max_users)
+							continue
+						if(players < VM.config_min_users)
+							continue
+					maps += i
+				choices.Add(maps)
+				if(length(choices) < 2)
+					return FALSE
 			if("custom")
 				question = input(usr, "What is the vote for?")
 				if(!question)
@@ -389,12 +435,6 @@ GLOBAL_LIST_INIT(possible_vote_types, list(
 		"color" = "red",
 		"icon" = "power-off",
 		"variable_required" = "can_restart_vote",
-	),
-	"gamemode" = list(
-		"name" = "Gamemode Vote",
-		"color" = "purple",
-		"icon" = "dice-d6",
-		"variable_required" = "can_gamemode_vote",
 	),
 	"shipmap" = list(
 		"name" = "Shipmap Vote",

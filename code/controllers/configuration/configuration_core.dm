@@ -31,6 +31,11 @@ GLOBAL_DATUM_INIT(configuration, /datum/server_configuration, new())
 		return FALSE
 	. = ..()
 
+/datum/server_configuration/can_vv_get(var_name)
+	if(var_name == "raw_data")
+		return FALSE
+	. = ..()
+
 /datum/server_configuration/CanProcCall(procname)
 	return FALSE
 

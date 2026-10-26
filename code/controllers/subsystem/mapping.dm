@@ -52,7 +52,7 @@ SUBSYSTEM_DEF(mapping)
 /datum/controller/subsystem/mapping/proc/HACK_LoadMapConfig()
 	if(!configs)
 		configs = load_map_configs(ALL_MAPTYPES, error_if_missing = FALSE)
-		world.name = "[SSlobby.lobby_arts] - [SSmapping.configs[SHIP_MAP].map_name]"
+		world.name = "[SSmapping.configs[SHIP_MAP].map_name]"
 
 /datum/controller/subsystem/mapping/Initialize(timeofday)
 	HACK_LoadMapConfig()

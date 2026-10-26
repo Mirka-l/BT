@@ -21,6 +21,8 @@ SUBSYSTEM_DEF(assets)
 	transport.Load()
 
 /datum/controller/subsystem/assets/Initialize()
+	OnConfigLoad()
+
 	for(var/type in typesof(/datum/asset))
 		var/datum/asset/A = type
 		if(type != initial(A._abstract))

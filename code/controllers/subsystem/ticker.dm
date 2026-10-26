@@ -159,6 +159,36 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/proc/setup()
 	to_chat(world, SPAN_BOLDNOTICE("Enjoy the game!"))
 	var/init_start = world.timeofday
+	//Create and announce mode
+	mode = GLOB.master_mode
+
+	CHECK_TICK
+	if(!mode.can_start(bypass_checks))
+		to_chat(world, "Requirements to start [GLOB.master_mode] not met. Reverting to pre-game lobby.")
+		// Make only one more attempt
+		if(world.time - 2 * wait > GLOB.configuration.general.lobby_countdown SECONDS)
+			flash_clients()
+			delay_start = TRUE
+			to_chat(world, SPAN_CENTERBOLD("The game start has been delayed."))
+			message_admins(SPAN_ADMINNOTICE("Alert: Insufficent players ready to start [GLOB.master_mode].\nEither change mode and map or start round and bypass checks."))
+		else
+			to_chat(world, "Attempting again...")
+		QDEL_NULL(mode)
+		GLOB.RoleAuthority.reset_roles()
+		return FALSE
+
+	CHECK_TICK
+	if(!mode.pre_setup() && !bypass_checks)
+		QDEL_NULL(mode)
+		to_chat(world, "<b>Error in pre-setup for [GLOB.master_mode].</b> Reverting to pre-game lobby.")
+		GLOB.RoleAuthority.reset_roles()
+		return FALSE
+
+	CHECK_TICK
+	mode.announce()
+	if(mode.taskbar_icon)
+		RegisterSignal(SSdcs, COMSIG_GLOB_CLIENT_LOGGED_IN, PROC_REF(handle_mode_icon))
+		set_clients_taskbar_icon(mode.taskbar_icon)
 
 	if(GLOB.perf_flags & PERF_TOGGLE_LAZYSS)
 		apply_lazy_timings()

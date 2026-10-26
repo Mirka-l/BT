@@ -172,7 +172,7 @@ const StartVote = (props) => {
 
 const SettingsMenu = (props) => {
   const { act, data } = useBackend();
-  const { can_restart_vote, can_gamemode_vote } = data;
+  const { can_restart_vote } = data;
 
   return (
     <Section>
@@ -189,22 +189,6 @@ const SettingsMenu = (props) => {
             tooltipPosition="left"
           >
             {can_restart_vote ? 'Unlocked' : 'Locked'}
-          </Button>
-        </Flex.Item>
-      </Flex>
-      <Flex mt={1}>
-        <Flex.Item color="label" grow={1}>
-          Gamemode Votes:
-        </Flex.Item>
-        <Flex.Item>
-          <Button
-            icon={can_gamemode_vote ? 'lock-open' : 'lock'}
-            color={can_gamemode_vote ? 'good' : 'bad'}
-            onClick={() => act('toggle_gamemode')}
-            tooltip="Controls whether players can make gamemode votes."
-            tooltipPosition="left"
-          >
-            {can_gamemode_vote ? 'Unlocked' : 'Locked'}
           </Button>
         </Flex.Item>
       </Flex>

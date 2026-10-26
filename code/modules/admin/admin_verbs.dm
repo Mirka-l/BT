@@ -381,8 +381,8 @@ GLOBAL_LIST_INIT(roundstart_mod_verbs, list(
 		add_verb(src, GLOB.admin_verbs_server)
 	if(CLIENT_HAS_RIGHTS(src, R_DEBUG))
 		add_verb(src, GLOB.admin_verbs_debug)
-		if(CLIENT_HAS_RIGHTS(src, R_CALLPROC))
-			add_verb(src, GLOB.admin_verbs_debug_advanced)  // Right now it's just callproc but we can easily add others later on.
+	if(CLIENT_HAS_RIGHTS(src, R_CALLPROC))
+		add_verb(src, GLOB.admin_verbs_debug_advanced)  // Right now it's just callproc but we can easily add others later on.
 	if(CLIENT_HAS_RIGHTS(src, R_POSSESS))
 		add_verb(src, GLOB.admin_verbs_possess)
 	if(CLIENT_HAS_RIGHTS(src, R_PERMISSIONS))

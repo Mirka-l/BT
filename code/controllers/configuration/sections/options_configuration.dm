@@ -20,7 +20,7 @@
 	var/notify_new_player_age = 1
 
 /datum/configuration_section/options_configuration/load_data(list/data)
-	CONFIG_LOAD_BOOL(explosive_antigrief, data["explosive_antigrief"])
+	CONFIG_LOAD_NUM(explosive_antigrief, data["explosive_antigrief"])
 	CONFIG_LOAD_BOOL(sleep_offline, data["sleep_offline"])
 	CONFIG_LOAD_STR(asset_transport, data["asset_transport"])
 	CONFIG_LOAD_STR(asset_cdn_webroot, data["asset_cdn_webroot"])
